@@ -1,3 +1,4 @@
+from indicators.moving_averages import add_moving_averages
 from strategies.base_strategy import BaseStrategy
 
 class MovingAverageCrossStrategy(BaseStrategy):
@@ -14,14 +15,11 @@ class MovingAverageCrossStrategy(BaseStrategy):
             raise ValueError("short_window must be less than long_window.")
 
     def generate_signals(self):
-
-        df = self.df.copy()
-
-        if "close" not in df.columns:
-            raise ValueError("Input DataFrame must contain a 'close' column.")
-
-        df["short_ma"] = df["close"].rolling(window=self.short_window).mean()
-        df["long_ma"] = df["close"].rolling(window=self.long_window).mean()
+        df = add_moving_averages(
+            self.df,
+            short_window=self.short_window,
+            long_window=self.long_window
+        )
 
         df["signal"] = 0
 
@@ -31,7 +29,7 @@ class MovingAverageCrossStrategy(BaseStrategy):
         df.loc[valid_mask & (df["short_ma"] < df["long_ma"]), "signal"] = -1
 
         return df
-    
+
     @classmethod
     def get_optimization_grid(cls):
         return {
@@ -42,9 +40,9 @@ class MovingAverageCrossStrategy(BaseStrategy):
     @classmethod
     def get_param_names(cls):
         return ["short_window", "long_window"]
-    
+
     @classmethod
-    def get_default_params(cls):   
+    def get_default_params(cls):
         return {
             "short_window": 20,
             "long_window": 50,

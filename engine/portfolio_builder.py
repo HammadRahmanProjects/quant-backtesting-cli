@@ -12,51 +12,6 @@ from cli.inputs import (
 
 console = Console()
 
-def _parse_param_value(raw_value, default_value):
-    if isinstance(default_value, bool):
-        lowered = raw_value.strip().lower()
-        if lowered in {"true", "1", "yes", "y"}:
-            return True
-        if lowered in {"false", "0", "no", "n"}:
-            return False
-        raise ValueError("Enter a valid boolean value.")
-
-    if isinstance(default_value, int):
-        return int(raw_value)
-
-    if isinstance(default_value, float):
-        return float(raw_value)
-
-    return raw_value
-
-def prompt_strategy_params(strategy_class):
-    param_names = strategy_class.get_param_names()
-    default_params = strategy_class.get_default_params()
-
-    strategy_params = {}
-
-    for param_name in param_names:
-        default_value = default_params[param_name]
-
-        while True:
-            raw_value = prompt_text(f"Enter {param_name} [{default_value}]:")
-            if raw_value is None:
-                return None
-
-            raw_value = raw_value.strip()
-
-            if raw_value == "":
-                strategy_params[param_name] = default_value
-                break
-
-            try:
-                strategy_params[param_name] = _parse_param_value(raw_value, default_value)
-                break
-            except ValueError:
-                console.print(f"[red]Invalid value for {param_name}.[/red]")
-
-    return strategy_params
-
 def create_portfolio():
     console.print("\n[#2962FF]--- Create New Portfolio ---[/#2962FF]")
     console.print("[#9E9E9E]Press Esc at any prompt to return to the main menu.[/#9E9E9E]")
@@ -155,15 +110,8 @@ def create_portfolio():
                 console.print("[red]Invalid strategy name. Please choose from the list above.[/red]")
                 continue
 
-            strategy_class = AVAILABLE_STRATEGIES[strategy_name]
-            strategy_params = prompt_strategy_params(strategy_class)
-
-            if strategy_params is None:
-                return None
-
             strategy_map[ticker] = {
                 "name": strategy_name,
-                "params": strategy_params,
             }
             break
 

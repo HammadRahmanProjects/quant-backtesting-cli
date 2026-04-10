@@ -2,7 +2,7 @@ from functools import wraps
 
 from rich.console import Console
 
-from cli.inputs import confirm_action
+from cli.inputs import confirm_action, prompt_text
 from cli.menus import (
     prompt_saved_portfolio_menu,
     prompt_saved_portfolio_action_menu,
@@ -28,6 +28,7 @@ from engine.data_pipeline import process_market_data
 from engine.optimization import optimize_portfolio
 from engine.portfolio_builder import create_portfolio
 from engine.strategy_runner import generate_signals
+from strategies.registry import AVAILABLE_STRATEGIES
 
 console = Console()
 
@@ -41,6 +42,71 @@ def cancellable_action(func):
             return
 
     return wrapper
+
+def _parse_param_value(raw_value, default_value):
+    if isinstance(default_value, bool):
+        lowered = raw_value.strip().lower()
+        if lowered in {"true", "1", "yes", "y"}:
+            return True
+        if lowered in {"false", "0", "no", "n"}:
+            return False
+        raise ValueError("Enter a valid boolean value.")
+
+    if isinstance(default_value, int):
+        return int(raw_value)
+
+    if isinstance(default_value, float):
+        return float(raw_value)
+
+    return raw_value
+
+def _prompt_strategy_params_map(portfolio):
+    strategy_params_map = {}
+
+    for ticker in portfolio.tickers:
+        strategy_info = portfolio.strategy_map[ticker]
+        strategy_name = strategy_info["name"]
+
+        strategy_class = AVAILABLE_STRATEGIES.get(strategy_name)
+        if strategy_class is None:
+            raise ValueError(f"{ticker}: Unknown strategy '{strategy_name}'.")
+
+        if not hasattr(strategy_class, "get_param_names"):
+            raise ValueError(f"{ticker}: Strategy '{strategy_name}' does not define get_param_names().")
+
+        if not hasattr(strategy_class, "get_default_params"):
+            raise ValueError(f"{ticker}: Strategy '{strategy_name}' does not define get_default_params().")
+
+        param_names = strategy_class.get_param_names()
+        default_params = strategy_class.get_default_params()
+
+        console.print(f"\n[#2962FF]{ticker} — {strategy_name} parameters[/#2962FF]")
+
+        strategy_params = {}
+
+        for param_name in param_names:
+            default_value = default_params[param_name]
+
+            while True:
+                raw_value = prompt_text(f"Enter {param_name} [{default_value}]:")
+                if raw_value is None:
+                    return None
+
+                raw_value = raw_value.strip()
+
+                if raw_value == "":
+                    strategy_params[param_name] = default_value
+                    break
+
+                try:
+                    strategy_params[param_name] = _parse_param_value(raw_value, default_value)
+                    break
+                except ValueError:
+                    console.print(f"[red]Invalid value for {param_name}.[/red]")
+
+        strategy_params_map[ticker] = strategy_params
+
+    return strategy_params_map
 
 @cancellable_action
 def handle_create_portfolio(state):
@@ -117,11 +183,16 @@ def handle_run_backtest(state):
         console.print("[red]No portfolio loaded in the current session.[/red]")
         return
 
+    strategy_params_map = _prompt_strategy_params_map(portfolio)
+    if strategy_params_map is None:
+        console.print("[#FF9800]Action cancelled. Returning to main menu.[/#FF9800]")
+        return
+
     console.print("\n[#FF9800]Running backtest...[/#FF9800]")
 
     market_data = pull_market_data(portfolio)
     processed_data = process_market_data(market_data)
-    signals_data = generate_signals(processed_data, portfolio)
+    signals_data = generate_signals(processed_data, portfolio, strategy_params_map)  
     backtest_results = run_backtests(signals_data, portfolio)
 
     state["last_backtest_results"] = backtest_results
@@ -153,11 +224,16 @@ def handle_run_risk_analysis(state):
         console.print("[red]No portfolio loaded in the current session.[/red]")
         return
 
+    strategy_params_map = _prompt_strategy_params_map(portfolio)
+    if strategy_params_map is None:
+        console.print("[#FF9800]Action cancelled. Returning to main menu.[/#FF9800]")
+        return
+
     console.print("\n[#FF9800]Running risk analysis...[/#FF9800]")
 
     market_data = pull_market_data(portfolio)
     processed_data = process_market_data(market_data)
-    signals_data = generate_signals(processed_data, portfolio)
+    signals_data = generate_signals(processed_data, portfolio, strategy_params_map)
     backtest_results = run_backtests(signals_data, portfolio)
 
     state["last_backtest_results"] = backtest_results
