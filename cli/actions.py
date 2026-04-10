@@ -22,11 +22,12 @@ from database.portfolio_store import (
     list_portfolios,
     load_portfolio,
     delete_portfolio,
+    update_portfolio
 )
 from engine.backtest_runner import run_backtests
 from engine.data_pipeline import process_market_data
 from engine.optimization import optimize_portfolio
-from engine.portfolio_builder import create_portfolio
+from engine.portfolio_builder import create_portfolio, edit_portfolio
 from engine.strategy_runner import generate_signals
 from strategies.registry import AVAILABLE_STRATEGIES
 
@@ -131,10 +132,7 @@ def handle_view_saved_portfolios(state):
             console.print("[#FF9800]No saved portfolios found.[/#FF9800]")
             return
 
-        selected_id = prompt_saved_portfolio_menu(
-            portfolios,
-            "Select a saved portfolio:"
-        )
+        selected_id = prompt_saved_portfolio_menu(portfolios, "Select a saved portfolio:")
 
         if selected_id in (None, "BACK"):
             return
@@ -153,15 +151,20 @@ def handle_view_saved_portfolios(state):
 
         if selected_action == "Load Into Session":
             portfolio = load_portfolio(selected_id)
-
             if portfolio is None:
                 console.print("[red]Failed to load portfolio.[/red]")
                 continue
-
             state["current_portfolio"] = portfolio
             state["last_backtest_results"] = None
-
             console.print("[#26A69A]Portfolio loaded into session.[/#26A69A]")
+            continue
+
+        if selected_action == "Edit Portfolio":
+            portfolio = load_portfolio(selected_id)
+            if portfolio is None:
+                console.print("[red]Failed to load portfolio.[/red]")
+                continue
+            handle_edit_portfolio(state, selected_id, portfolio)
             continue
 
 @cancellable_action
@@ -260,6 +263,23 @@ def handle_run_optimization(state):
     print_optimization_results(optimization_results)
     plot_optimization_curves(optimization_results, top_n=10)
     plot_optimization_heatmap(optimization_results, metric="sharpe_ratio")
+
+@cancellable_action
+def handle_edit_portfolio(state, portfolio_id, portfolio):
+    updated_portfolio = edit_portfolio(portfolio)
+
+    if updated_portfolio is None:
+        console.print("[#FF9800]Edit cancelled.[/#FF9800]")
+        return
+
+    update_portfolio(portfolio_id, updated_portfolio)
+    console.print("[#26A69A]Portfolio updated successfully.[/#26A69A]")
+
+    # If the edited portfolio was the active session one, update it
+    current = state.get("current_portfolio")
+    if current is not None and current.name == portfolio.name:
+        state["current_portfolio"] = updated_portfolio
+        state["last_backtest_results"] = None
 
 def handle_exit(state):
     confirmed = confirm_action("Are you sure you want to exit?")

@@ -74,6 +74,40 @@ def load_portfolio(portfolio_id):
         interval=row[9],
     )
 
+def update_portfolio(portfolio_id, portfolio):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    UPDATE portfolios SET
+        name = ?,
+        initial_cash = ?,
+        commission_rate = ?,
+        slippage_rate = ?,
+        tickers = ?,
+        weights = ?,
+        strategy_map = ?,
+        start_date = ?,
+        end_date = ?,
+        interval = ?
+    WHERE id = ?
+    """, (
+        portfolio.name,
+        portfolio.initial_cash,
+        portfolio.commission_rate,
+        portfolio.slippage_rate,
+        json.dumps(portfolio.tickers),
+        json.dumps(portfolio.weights),
+        json.dumps(portfolio.strategy_map),
+        portfolio.start_date,
+        portfolio.end_date,
+        portfolio.interval,
+        portfolio_id,
+    ))
+
+    conn.commit()
+    conn.close()
+
 def delete_portfolio(portfolio_id):
     conn = get_connection()
     cursor = conn.cursor()
