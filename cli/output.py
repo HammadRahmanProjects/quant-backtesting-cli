@@ -4,9 +4,8 @@ from engine.metrics import compute_all_metrics
 from engine.portfolio_builder import get_allocated_cash
 
 import pandas as pd
-import matplotlib
-matplotlib.use("TkAgg")
-import matplotlib.pyplot as plt
+import plotly.graph_objects as go
+import plotly.express as px
 
 console = Console()
 
@@ -60,47 +59,51 @@ def plot_optimization_curves(optimization_results, top_n=10, bottom_n=10):
         top_strategies = results_table.head(top_n)
         bottom_strategies = results_table.tail(bottom_n)
 
-        plt.figure(figsize=(12, 6))
+        top_fig = go.Figure()
         for _, row in top_strategies.iterrows():
             if "equity_curve_series" not in row or row["equity_curve_series"] is None:
                 continue
 
             label = _build_param_label(row, param_columns)
 
-            plt.plot(
-                row["equity_curve_series"],
-                label=label,
-                alpha=0.7
+            top_fig.add_trace(
+                go.Scatter(
+                    y=row["equity_curve_series"],
+                    mode="lines",
+                    name=label,
+                )
             )
 
-        plt.title(f"{ticker} Top {top_n} Strategies")
-        plt.xlabel("Time Step")
-        plt.ylabel("Equity")
-        plt.legend(fontsize=8)
-        plt.tight_layout()
-        plt.show(block=False)
-        plt.pause(0.1)
+        top_fig.update_layout(
+            title=f"{ticker} Top {top_n} Strategies",
+            xaxis_title="Time Step",
+            yaxis_title="Equity",
+            template="plotly_dark",
+        )
+        top_fig.show()
 
-        plt.figure(figsize=(12, 6))
+        bottom_fig = go.Figure()
         for _, row in bottom_strategies.iterrows():
             if "equity_curve_series" not in row or row["equity_curve_series"] is None:
                 continue
 
             label = _build_param_label(row, param_columns)
 
-            plt.plot(
-                row["equity_curve_series"],
-                label=label,
-                alpha=0.7
+            bottom_fig.add_trace(
+                go.Scatter(
+                    y=row["equity_curve_series"],
+                    mode="lines",
+                    name=label,
+                )
             )
 
-        plt.title(f"{ticker} Bottom {bottom_n} Strategies")
-        plt.xlabel("Time Step")
-        plt.ylabel("Equity")
-        plt.legend(fontsize=8)
-        plt.tight_layout()
-        plt.show(block=False)
-        plt.pause(0.1)
+        bottom_fig.update_layout(
+            title=f"{ticker} Bottom {bottom_n} Strategies",
+            xaxis_title="Time Step",
+            yaxis_title="Equity",
+            template="plotly_dark",
+        )
+        bottom_fig.show()
 
 def print_backtest_results(backtest_results, portfolio):
     if not backtest_results:
@@ -138,17 +141,19 @@ def print_backtest_results(backtest_results, portfolio):
 
         console.print("\nLast 5 rows:")
         console.print(
-            results_df[[
-                "datetime",
-                "close",
-                "signal",
-                "position",
-                "returns",
-                "strategy_returns",
-                "transaction_cost",
-                "net_strategy_returns",
-                "equity_curve"
-            ]].tail().to_string(index=False)
+            results_df[
+                [
+                    "datetime",
+                    "close",
+                    "signal",
+                    "position",
+                    "returns",
+                    "strategy_returns",
+                    "transaction_cost",
+                    "net_strategy_returns",
+                    "equity_curve",
+                ]
+            ].tail().to_string(index=False)
         )
 
 def print_risk_analysis(backtest_results, portfolio):
@@ -220,40 +225,27 @@ def plot_optimization_heatmap(optimization_results, metric="sharpe_ratio"):
         heatmap_data = results_table.pivot(
             index=y_col,
             columns=x_col,
-            values=metric
+            values=metric,
         )
 
-        plt.figure(figsize=(12, 8))
-        plt.imshow(
-            heatmap_data,
-            aspect="auto",
-            origin="lower",
-            interpolation="nearest"
-        )
-        plt.colorbar(label=metric)
-        plt.title(f"{ticker} Optimization Heatmap ({metric})")
-        plt.xlabel(x_col)
-        plt.ylabel(y_col)
-
-        x_step = max(1, len(heatmap_data.columns) // 10)
-        y_step = max(1, len(heatmap_data.index) // 10)
-
-        x_ticks = range(0, len(heatmap_data.columns), x_step)
-        y_ticks = range(0, len(heatmap_data.index), y_step)
-
-        plt.xticks(
-            x_ticks,
-            [heatmap_data.columns[i] for i in x_ticks],
-            rotation=45
-        )
-        plt.yticks(
-            y_ticks,
-            [heatmap_data.index[i] for i in y_ticks]
+        fig = go.Figure(
+            data=go.Heatmap(
+                z=heatmap_data.values,
+                x=heatmap_data.columns,
+                y=heatmap_data.index,
+                colorscale="Viridis",
+                colorbar=dict(title=metric),
+            )
         )
 
-        plt.tight_layout()
-        plt.show(block=False)
-        plt.pause(0.1)
+        fig.update_layout(
+            title=f"{ticker} Optimization Heatmap ({metric})",
+            xaxis_title=x_col,
+            yaxis_title=y_col,
+            template="plotly_dark",
+        )
+
+        fig.show()
 
 def plot_backtest_visuals(backtest_results, portfolio):
     if not backtest_results:
@@ -270,31 +262,58 @@ def plot_backtest_visuals(backtest_results, portfolio):
             continue
 
         allocated_cash = get_allocated_cash(portfolio, ticker)
-
         buy_and_hold = (results_df["close"] / results_df["close"].iloc[0]) * allocated_cash
 
-        plt.figure(figsize=(12, 6))
-        plt.plot(results_df["equity_curve"], label="Strategy")
-        plt.plot(buy_and_hold, label="Buy & Hold", alpha=0.8)
-        plt.title(f"{ticker} Backtest: Strategy vs Buy & Hold")
-        plt.xlabel("Time Step")
-        plt.ylabel("Equity")
-        plt.legend()
-        plt.tight_layout()
-        plt.show(block=False)
-        plt.pause(0.1)
+        fig = go.Figure()
+
+        fig.add_trace(
+            go.Scatter(
+                x=results_df["datetime"] if "datetime" in results_df.columns else list(range(len(results_df))),
+                y=results_df["equity_curve"],
+                mode="lines",
+                name="Strategy",
+            )
+        )
+
+        fig.add_trace(
+            go.Scatter(
+                x=results_df["datetime"] if "datetime" in results_df.columns else list(range(len(results_df))),
+                y=buy_and_hold,
+                mode="lines",
+                name="Buy & Hold",
+            )
+        )
+
+        fig.update_layout(
+            title=f"{ticker} Backtest: Strategy vs Buy & Hold",
+            xaxis_title="Time",
+            yaxis_title="Equity",
+            template="plotly_dark",
+        )
+
+        fig.show()
 
         running_max = results_df["equity_curve"].cummax()
         drawdown = (results_df["equity_curve"] / running_max) - 1
 
-        plt.figure(figsize=(12, 4))
-        plt.plot(drawdown)
-        plt.title(f"{ticker} Drawdown")
-        plt.xlabel("Time Step")
-        plt.ylabel("Drawdown")
-        plt.tight_layout()
-        plt.show(block=False)
-        plt.pause(0.1)
+        dd_fig = go.Figure()
+        dd_fig.add_trace(
+            go.Scatter(
+                x=results_df["datetime"] if "datetime" in results_df.columns else list(range(len(results_df))),
+                y=drawdown,
+                mode="lines",
+                name="Drawdown",
+            )
+        )
+
+        dd_fig.update_layout(
+            title=f"{ticker} Drawdown",
+            xaxis_title="Time",
+            yaxis_title="Drawdown",
+            template="plotly_dark",
+        )
+
+        dd_fig.show()
 
 def plot_risk_visuals(backtest_results, portfolio):
     if not backtest_results:
@@ -312,34 +331,58 @@ def plot_risk_visuals(backtest_results, portfolio):
 
         strategy_returns = results_df["net_strategy_returns"].dropna()
 
-        plt.figure(figsize=(12, 4))
-        plt.hist(strategy_returns, bins=30)
-        plt.title(f"{ticker} Distribution of Strategy Returns")
-        plt.xlabel("Return")
-        plt.ylabel("Frequency")
-        plt.tight_layout()
-        plt.show(block=False)
-        plt.pause(0.1)
+        hist_fig = px.histogram(
+            x=strategy_returns,
+            nbins=30,
+            title=f"{ticker} Distribution of Strategy Returns",
+            template="plotly_dark",
+        )
+        hist_fig.update_layout(
+            xaxis_title="Return",
+            yaxis_title="Frequency",
+        )
+        hist_fig.show()
 
         cumulative_returns = (1 + strategy_returns).cumprod()
 
-        plt.figure(figsize=(12, 4))
-        plt.plot(cumulative_returns)
-        plt.title(f"{ticker} Cumulative Strategy Returns")
-        plt.xlabel("Time Step")
-        plt.ylabel("Growth of $1")
-        plt.tight_layout()
-        plt.show(block=False)
-        plt.pause(0.1)
+        cum_fig = go.Figure()
+        cum_fig.add_trace(
+            go.Scatter(
+                x=results_df.loc[strategy_returns.index, "datetime"]
+                if "datetime" in results_df.columns
+                else list(range(len(cumulative_returns))),
+                y=cumulative_returns,
+                mode="lines",
+                name="Cumulative Returns",
+            )
+        )
+
+        cum_fig.update_layout(
+            title=f"{ticker} Cumulative Strategy Returns",
+            xaxis_title="Time",
+            yaxis_title="Growth of $1",
+            template="plotly_dark",
+        )
+        cum_fig.show()
 
         running_max = results_df["equity_curve"].cummax()
         drawdown = (results_df["equity_curve"] / running_max) - 1
 
-        plt.figure(figsize=(12, 4))
-        plt.plot(drawdown)
-        plt.title(f"{ticker} Risk Analysis Drawdown")
-        plt.xlabel("Time Step")
-        plt.ylabel("Drawdown")
-        plt.tight_layout()
-        plt.show(block=False)
-        plt.pause(0.1)
+        dd_fig = go.Figure()
+        dd_fig.add_trace(
+            go.Scatter(
+                x=results_df["datetime"] if "datetime" in results_df.columns else list(range(len(results_df))),
+                y=drawdown,
+                mode="lines",
+                name="Drawdown",
+            )
+        )
+
+        dd_fig.update_layout(
+            title=f"{ticker} Risk Analysis Drawdown",
+            xaxis_title="Time",
+            yaxis_title="Drawdown",
+            template="plotly_dark",
+        )
+
+        dd_fig.show()
