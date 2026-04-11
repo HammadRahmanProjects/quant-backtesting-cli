@@ -13,6 +13,7 @@ from cli.inputs import (
 
 console = Console()
 
+
 def _prompt_positive_float(prompt_message: str):
     while True:
         raw_value = prompt_text(prompt_message)
@@ -26,6 +27,7 @@ def _prompt_positive_float(prompt_message: str):
             return value
         except ValueError:
             console.print("[red]Invalid input. Enter a positive number.[/red]")
+
 
 def _prompt_non_negative_float(prompt_message: str):
     while True:
@@ -41,6 +43,7 @@ def _prompt_non_negative_float(prompt_message: str):
         except ValueError:
             console.print("[red]Invalid input. Enter a non-negative number.[/red]")
 
+
 def _prompt_weights(tickers):
     while True:
         weight_input = prompt_text("Enter weights (comma separated, e.g. 0.5,0.3,0.2):")
@@ -48,13 +51,17 @@ def _prompt_weights(tickers):
             return None
 
         try:
-            weights = [float(weight.strip()) for weight in weight_input.split(",") if weight.strip()]
+            weights = [
+                float(w.strip())
+                for w in weight_input.split(",")
+                if w.strip()
+            ]
 
             if len(weights) != len(tickers):
                 console.print("[red]Number of weights must match number of tickers.[/red]")
                 continue
 
-            if any(weight < 0 for weight in weights):
+            if any(w < 0 for w in weights):
                 console.print("[red]Weights must be non-negative.[/red]")
                 continue
 
@@ -67,43 +74,51 @@ def _prompt_weights(tickers):
         except ValueError:
             console.print("[red]Invalid weights. Enter numeric values only.[/red]")
 
+
 def _prompt_strategy_map(tickers):
+    """
+    For each ticker, present a scrollable questionary.select menu of
+    available strategies. No typing required — no typo risk.
+    Returns None if the user cancels at any point.
+    """
     available_strategies = list(AVAILABLE_STRATEGIES.keys())
     strategy_map = {}
 
-    console.print("\n[bold]Available strategies:[/bold]")
-    for strategy in available_strategies:
-        strategy_class = AVAILABLE_STRATEGIES[strategy]
-        param_names = strategy_class.get_param_names()
-        params_text = ", ".join(param_names)
-        console.print(f"- {strategy}({params_text})")
-
     for ticker in tickers:
-        while True:
-            strategy_name = prompt_text(f"Select strategy for {ticker}:")
-            if strategy_name is None:
-                return None
+        # Build choices with parameter info shown as a hint
+        choices = []
+        for strategy_name in available_strategies:
+            strategy_class = AVAILABLE_STRATEGIES[strategy_name]
+            param_names = strategy_class.get_param_names()
+            params_text = ", ".join(param_names)
+            choices.append(
+                questionary.Choice(
+                    title=f"{strategy_name}  ({params_text})",
+                    value=strategy_name,
+                )
+            )
 
-            strategy_name = strategy_name.strip().lower()
+        selected = questionary.select(
+            f"Select strategy for {ticker}:",
+            choices=choices,
+            pointer="➤",
+        ).ask()
 
-            if strategy_name not in available_strategies:
-                console.print("[red]Invalid strategy name. Please choose from the list above.[/red]")
-                continue
+        if selected is None:
+            return None
 
-            strategy_map[ticker] = {
-                "name": strategy_name,
-            }
-            break
+        strategy_map[ticker] = {"name": selected}
 
     return strategy_map
 
+
 def _prompt_dates():
     while True:
-        start_dt = get_valid_date("Enter start date (YYYY-MM-DD): ")
+        start_dt = get_valid_date("Enter start date (YYYY-MM-DD):")
         if start_dt is None:
             return None, None
 
-        end_dt = get_valid_date("Enter end date (YYYY-MM-DD): ")
+        end_dt = get_valid_date("Enter end date (YYYY-MM-DD):")
         if end_dt is None:
             return None, None
 
@@ -123,44 +138,51 @@ def _prompt_dates():
 
         return start_dt.strftime("%Y-%m-%d"), end_dt.strftime("%Y-%m-%d")
 
+
 def _format_strategy_map(strategy_map):
     formatted = []
     for ticker, strategy_info in strategy_map.items():
         formatted.append(f"{ticker}: {strategy_info['name']}")
     return " | ".join(formatted)
 
+
 def _print_portfolio_review(data):
     console.print("\n[#2962FF]--- Review Portfolio ---[/#2962FF]")
-    console.print(f"[bold]Name:[/bold] {data['name']}")
-    console.print(f"[bold]Initial Cash:[/bold] {data['initial_cash']}")
+    console.print(f"[bold]Name:[/bold]            {data['name']}")
+    console.print(f"[bold]Initial Cash:[/bold]    {data['initial_cash']}")
     console.print(f"[bold]Commission Rate:[/bold] {data['commission_rate']}")
-    console.print(f"[bold]Slippage Rate:[/bold] {data['slippage_rate']}")
-    console.print(f"[bold]Tickers:[/bold] {data['tickers']}")
-    console.print(f"[bold]Weights:[/bold] {data['weights']}")
-    console.print(f"[bold]Strategies:[/bold] {_format_strategy_map(data['strategy_map'])}")
-    console.print(f"[bold]Start Date:[/bold] {data['start_date']}")
-    console.print(f"[bold]End Date:[/bold] {data['end_date']}")
-    console.print(f"[bold]Interval:[/bold] {data['interval']}")
+    console.print(f"[bold]Slippage Rate:[/bold]   {data['slippage_rate']}")
+    console.print(f"[bold]Tickers:[/bold]         {data['tickers']}")
+    console.print(f"[bold]Weights:[/bold]         {data['weights']}")
+    console.print(f"[bold]Strategies:[/bold]      {_format_strategy_map(data['strategy_map'])}")
+    console.print(f"[bold]Start Date:[/bold]      {data['start_date']}")
+    console.print(f"[bold]End Date:[/bold]        {data['end_date']}")
+    console.print(f"[bold]Interval:[/bold]        {data['interval']}")
+
 
 def _edit_name(data):
     value = prompt_text("Enter portfolio name:")
     if value is not None:
         data["name"] = value.strip()
 
+
 def _edit_initial_cash(data):
     value = _prompt_positive_float("Enter initial cash:")
     if value is not None:
         data["initial_cash"] = value
+
 
 def _edit_commission_rate(data):
     value = _prompt_non_negative_float("Enter commission rate (e.g. 0.001):")
     if value is not None:
         data["commission_rate"] = value
 
+
 def _edit_slippage_rate(data):
     value = _prompt_non_negative_float("Enter slippage rate (e.g. 0.001):")
     if value is not None:
         data["slippage_rate"] = value
+
 
 def _edit_tickers(data):
     tickers = get_valid_tickers()
@@ -179,15 +201,18 @@ def _edit_tickers(data):
     data["weights"] = weights
     data["strategy_map"] = strategy_map
 
+
 def _edit_weights(data):
     weights = _prompt_weights(data["tickers"])
     if weights is not None:
         data["weights"] = weights
 
+
 def _edit_strategies(data):
     strategy_map = _prompt_strategy_map(data["tickers"])
     if strategy_map is not None:
         data["strategy_map"] = strategy_map
+
 
 def _edit_dates(data):
     start_date, end_date = _prompt_dates()
@@ -195,22 +220,25 @@ def _edit_dates(data):
         data["start_date"] = start_date
         data["end_date"] = end_date
 
+
 def _edit_interval(data):
     value = prompt_text("Enter interval (e.g. 1d, 1h, 1m):")
     if value is not None:
         data["interval"] = value.strip()
 
+
 EDIT_ACTIONS = {
-    "Edit Name": _edit_name,
-    "Edit Initial Cash": _edit_initial_cash,
+    "Edit Name":            _edit_name,
+    "Edit Initial Cash":    _edit_initial_cash,
     "Edit Commission Rate": _edit_commission_rate,
-    "Edit Slippage Rate": _edit_slippage_rate,
-    "Edit Tickers": _edit_tickers,
-    "Edit Weights": _edit_weights,
-    "Edit Strategies": _edit_strategies,
-    "Edit Dates": _edit_dates,
-    "Edit Interval": _edit_interval,
+    "Edit Slippage Rate":   _edit_slippage_rate,
+    "Edit Tickers":         _edit_tickers,
+    "Edit Weights":         _edit_weights,
+    "Edit Strategies":      _edit_strategies,
+    "Edit Dates":           _edit_dates,
+    "Edit Interval":        _edit_interval,
 }
+
 
 def _review_and_edit_portfolio_data(data):
     while True:
@@ -228,9 +256,11 @@ def _review_and_edit_portfolio_data(data):
                 "Edit Strategies",
                 "Edit Dates",
                 "Edit Interval",
+                questionary.Separator(),
                 "Confirm Portfolio",
                 "Cancel",
             ],
+            pointer="➤",
         ).ask()
 
         if choice is None or choice == "Cancel":
@@ -242,6 +272,7 @@ def _review_and_edit_portfolio_data(data):
         action = EDIT_ACTIONS.get(choice)
         if action:
             action(data)
+
 
 def create_portfolio():
     console.print("\n[#2962FF]--- Create New Portfolio ---[/#2962FF]")
@@ -284,16 +315,16 @@ def create_portfolio():
         return None
 
     portfolio_data = {
-        "name": name.strip(),
-        "initial_cash": initial_cash,
+        "name":            name.strip(),
+        "initial_cash":    initial_cash,
         "commission_rate": commission_rate,
-        "slippage_rate": slippage_rate,
-        "tickers": tickers,
-        "weights": weights,
-        "strategy_map": strategy_map,
-        "start_date": start_date,
-        "end_date": end_date,
-        "interval": interval.strip(),
+        "slippage_rate":   slippage_rate,
+        "tickers":         tickers,
+        "weights":         weights,
+        "strategy_map":    strategy_map,
+        "start_date":      start_date,
+        "end_date":        end_date,
+        "interval":        interval.strip(),
     }
 
     reviewed_data = _review_and_edit_portfolio_data(portfolio_data)
@@ -318,24 +349,26 @@ def create_portfolio():
 
     return portfolio
 
+
 def get_allocated_cash(portfolio, ticker):
     index = portfolio.tickers.index(ticker)
     weight = portfolio.weights[index]
     return portfolio.initial_cash * weight
 
+
 def edit_portfolio(portfolio):
     """Load an existing portfolio into the review/edit flow and return the updated version."""
     portfolio_data = {
-        "name": portfolio.name,
-        "initial_cash": portfolio.initial_cash,
+        "name":            portfolio.name,
+        "initial_cash":    portfolio.initial_cash,
         "commission_rate": portfolio.commission_rate,
-        "slippage_rate": portfolio.slippage_rate,
-        "tickers": portfolio.tickers,
-        "weights": portfolio.weights,
-        "strategy_map": portfolio.strategy_map,
-        "start_date": portfolio.start_date,
-        "end_date": portfolio.end_date,
-        "interval": portfolio.interval,
+        "slippage_rate":   portfolio.slippage_rate,
+        "tickers":         portfolio.tickers,
+        "weights":         portfolio.weights,
+        "strategy_map":    portfolio.strategy_map,
+        "start_date":      portfolio.start_date,
+        "end_date":        portfolio.end_date,
+        "interval":        portfolio.interval,
     }
 
     reviewed_data = _review_and_edit_portfolio_data(portfolio_data)

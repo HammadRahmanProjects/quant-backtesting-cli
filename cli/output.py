@@ -222,7 +222,16 @@ def plot_optimization_heatmap(optimization_results, metric="sharpe_ratio"):
             console.print(f"[red]{ticker}: Metric '{metric}' not found.[/red]")
             continue
 
-        heatmap_data = results_table.pivot(
+        # Aggregate duplicate (x, y) combinations before pivoting
+        # This happens when the grid has more than 2 params — we average
+        # the metric across all combinations that share the same x/y values
+        heatmap_df = (
+            results_table
+            .groupby([y_col, x_col], as_index=False)[metric]
+            .mean()
+        )
+
+        heatmap_data = heatmap_df.pivot(
             index=y_col,
             columns=x_col,
             values=metric,

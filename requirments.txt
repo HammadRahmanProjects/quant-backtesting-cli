@@ -1,0 +1,22 @@
+# Core
+pandas>=2.0.0
+numpy>=1.26.0
+
+# Market data
+yfinance>=0.2.40
+
+# CLI
+rich>=13.0.0
+questionary>=2.0.0
+
+# Visualization
+plotly>=5.0.0
+
+# Database
+# sqlite3 is part of Python standard library — no install needed
+
+# Concurrency
+# concurrent.futures is part of Python standard library — no install needed
+
+# Testing
+pytest>=8.0.0
