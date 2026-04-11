@@ -395,3 +395,198 @@ def plot_risk_visuals(backtest_results, portfolio):
         )
 
         dd_fig.show()
+
+def print_walk_forward_results(wf_results):
+    """Print walk-forward validation summary to terminal."""
+    if not wf_results:
+        console.print("[#FF9800]No walk-forward results to display.[/#FF9800]")
+        return
+
+    console.print("\n[#2962FF]Walk-Forward Validation Results[/#2962FF]")
+
+    for ticker, wf_result in wf_results.items():
+        console.print(f"\n[bold]{ticker}[/bold]")
+        console.print(f"Strategy:      {wf_result.strategy_name}")
+        console.print(f"Train period:  {wf_result.train_period} bars")
+        console.print(f"Test period:   {wf_result.test_period} bars")
+        console.print(f"Step size:     {wf_result.step_size} bars")
+        console.print(f"Windows:       {len(wf_result.windows)}")
+        console.print(f"Elapsed:       {wf_result.elapsed_seconds:.1f}s")
+
+        if wf_result.oos_metrics:
+            console.print("\n[#26A69A]Out-of-Sample Metrics[/#26A69A]")
+            console.print(f"Total Return:  {wf_result.oos_metrics.get('total_return', 0) * 100:.2f}%")
+            console.print(f"CAGR:          {wf_result.oos_metrics.get('cagr', 0) * 100:.2f}%")
+            console.print(f"Sharpe Ratio:  {wf_result.oos_metrics.get('sharpe_ratio', 0):.4f}")
+            console.print(f"Max Drawdown:  {wf_result.oos_metrics.get('max_drawdown', 0) * 100:.2f}%")
+            console.print(f"Calmar Ratio:  {wf_result.oos_metrics.get('calmar_ratio', 0):.4f}")
+
+        console.print("\n[#AB47BC]Per-Window Results[/#AB47BC]")
+        for w in wf_result.windows:
+            console.print(
+                f"  Window {w.window_index} | "
+                f"Train: {str(w.train_start.date())}→{str(w.train_end.date())} | "
+                f"Test: {str(w.test_start.date())}→{str(w.test_end.date())} | "
+                f"Train {wf_result.ranking_metric}: {w.best_train_metric:.4f} | "
+                f"OOS {wf_result.ranking_metric}: {w.test_metrics.get(wf_result.ranking_metric, 0):.4f} | "
+                f"Params: {w.best_params}"
+            )
+
+def plot_walk_forward_results(wf_results, portfolio):
+    """Plot walk-forward equity curve and parameter stability."""
+    if not wf_results:
+        console.print("[#FF9800]No walk-forward results to plot.[/#FF9800]")
+        return
+
+    for ticker, wf_result in wf_results.items():
+        if not wf_result.oos_equity_curve:
+            console.print(f"[red]{ticker}: No OOS equity curve to plot.[/red]")
+            continue
+
+        fig = go.Figure()
+
+        fig.add_trace(go.Scatter(
+            y    = wf_result.oos_equity_curve,
+            mode = "lines",
+            name = "Walk-Forward OOS",
+            line = dict(color="#2962FF", width=2),
+        ))
+
+        cumulative_bars = 0
+        for w in wf_result.windows:
+            fig.add_vline(
+                x           = cumulative_bars,
+                line_dash   = "dash",
+                line_color  = "#FF9800",
+                opacity     = 0.5,
+                annotation_text = f"W{w.window_index}",
+            )
+            cumulative_bars += w.n_test_bars
+
+        fig.update_layout(
+            title        = f"{ticker} Walk-Forward Out-of-Sample Equity Curve",
+            xaxis_title  = "Bar",
+            yaxis_title  = "Equity",
+            template     = "plotly_dark",
+        )
+        fig.show()
+
+        if wf_result.param_stability and len(wf_result.windows) > 1:
+            param_names = list(wf_result.param_stability[0].keys())
+            stability_fig = go.Figure()
+
+            for param in param_names:
+                values = [p.get(param, 0) for p in wf_result.param_stability]
+                stability_fig.add_trace(go.Scatter(
+                    x    = list(range(len(values))),
+                    y    = values,
+                    mode = "lines+markers",
+                    name = param,
+                ))
+
+            stability_fig.update_layout(
+                title       = f"{ticker} Parameter Stability Across Windows",
+                xaxis_title = "Window",
+                yaxis_title = "Parameter Value",
+                template    = "plotly_dark",
+            )
+            stability_fig.show()
+
+
+def print_monte_carlo_results(mc_results):
+    """Print Monte Carlo simulation summary."""
+    if not mc_results:
+        console.print("[#FF9800]No Monte Carlo results to display.[/#FF9800]")
+        return
+
+    console.print("\n[#2962FF]Monte Carlo Simulation Results[/#2962FF]")
+
+    for ticker, mc in mc_results.items():
+        console.print(f"\n[bold]{ticker}[/bold]")
+        console.print(f"Simulations:        {mc.n_simulations:,}")
+        console.print(f"Confidence level:   {mc.confidence * 100:.0f}%")
+        console.print(f"\n[#26A69A]Observed vs Simulated[/#26A69A]")
+        console.print(f"Observed Sharpe:    {mc.observed_sharpe:.4f}")
+        console.print(f"Simulated Sharpe:   [{mc.sharpe_ci_lower:.4f}, {mc.sharpe_ci_upper:.4f}]")
+        console.print(f"Observed Max DD:    {mc.observed_max_dd * 100:.2f}%")
+        console.print(f"Simulated Max DD:   [{mc.max_dd_ci_lower * 100:.2f}%, {mc.max_dd_ci_upper * 100:.2f}%]")
+        console.print(f"\n[#AB47BC]Edge Assessment[/#AB47BC]")
+        console.print(f"P(genuine edge):    {mc.prob_outperformance * 100:.1f}%")
+
+        # Interpret the result
+        if mc.prob_outperformance >= 0.95:
+            console.print("[#26A69A]Strong evidence of genuine edge[/#26A69A]")
+        elif mc.prob_outperformance >= 0.80:
+            console.print("[#FF9800]Moderate evidence of edge — use caution[/#FF9800]")
+        else:
+            console.print("[red]Weak evidence of edge — likely noise[/red]")
+
+def plot_monte_carlo_results(mc_results):
+    """Plot Monte Carlo distributions."""
+    if not mc_results:
+        console.print("[#FF9800]No Monte Carlo results to plot.[/#FF9800]")
+        return
+
+    for ticker, mc in mc_results.items():
+        if not mc.sharpe_distribution:
+            continue
+
+        fig = go.Figure()
+
+        fig.add_trace(go.Histogram(
+            x       = mc.sharpe_distribution,
+            nbinsx  = 100,
+            name    = "Simulated Sharpe",
+            opacity = 0.7,
+        ))
+
+        fig.add_vline(
+            x                = mc.observed_sharpe,
+            line_dash        = "solid",
+            line_color       = "#26A69A",
+            line_width       = 2,
+            annotation_text  = f"Observed: {mc.observed_sharpe:.4f}",
+            annotation_position = "top right",
+        )
+
+        fig.add_vline(
+            x               = mc.sharpe_ci_lower,
+            line_dash       = "dash",
+            line_color      = "#FF9800",
+            annotation_text = f"{mc.confidence*100:.0f}% CI lower",
+        )
+
+        fig.add_vline(
+            x               = mc.sharpe_ci_upper,
+            line_dash       = "dash",
+            line_color      = "#FF9800",
+            annotation_text = f"{mc.confidence*100:.0f}% CI upper",
+        )
+
+        fig.update_layout(
+            title       = f"{ticker} Monte Carlo — Sharpe Ratio Distribution ({mc.n_simulations:,} simulations)",
+            xaxis_title = "Sharpe Ratio",
+            yaxis_title = "Frequency",
+            template    = "plotly_dark",
+        )
+        fig.show()
+
+        if mc.sample_equity_curves:
+            eq_fig = go.Figure()
+
+            for i, curve in enumerate(mc.sample_equity_curves[:100]):
+                eq_fig.add_trace(go.Scatter(
+                    y       = curve,
+                    mode    = "lines",
+                    opacity = 0.1,
+                    line    = dict(color="#2962FF", width=1),
+                    showlegend = False,
+                ))
+
+            eq_fig.update_layout(
+                title       = f"{ticker} Monte Carlo — Sample Equity Curves",
+                xaxis_title = "Bar",
+                yaxis_title = "Equity",
+                template    = "plotly_dark",
+            )
+            eq_fig.show()

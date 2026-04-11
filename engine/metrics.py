@@ -1,6 +1,8 @@
 import numpy as np
 import pandas as pd
 
+from typing import Optional
+
 INTERVAL_TO_PERIODS = {
     "1m": 252 * 390,
     "2m": 252 * (390 / 2),
@@ -101,30 +103,85 @@ def calculate_calmar_ratio(cagr: float, max_drawdown: float) -> float:
         return 0.0
     return cagr / abs(max_drawdown)
 
+def calculate_deflated_sharpe_ratio(
+    observed_sharpe  : float,
+    n_trials         : int,
+    n_bars           : int,
+    returns          : pd.Series,
+    risk_free_rate   : float = 0.0,
+) -> float:
+    
+    from scipy.stats import norm
+
+    returns = returns.dropna()
+
+    if len(returns) < 2 or n_trials < 1:
+        return 0.0
+
+    skewness = float(returns.skew())
+    kurtosis = float(returns.kurtosis())  # excess kurtosis
+
+    # Expected maximum Sharpe from n_trials independent Gaussian trials
+    # Approximation from Lopez de Prado (2014)
+    euler_mascheroni = 0.5772156649
+    expected_max_sharpe = (
+        (1 - euler_mascheroni) * norm.ppf(1 - 1 / n_trials) +
+        euler_mascheroni * norm.ppf(1 - 1 / (n_trials * np.e))
+    )
+
+    # Variance adjustment for non-normality of returns
+    variance_adjustment = np.sqrt(
+        (1 - skewness * observed_sharpe +
+         (kurtosis / 4) * observed_sharpe ** 2) /
+        (n_bars - 1)
+    )
+
+    if variance_adjustment <= 0:
+        return 0.0
+
+    dsr = norm.cdf(
+        (observed_sharpe - expected_max_sharpe) / variance_adjustment
+    )
+
+    return float(dsr)
+
 def compute_all_metrics(
-    results_df: pd.DataFrame,
-    interval: str,
-    risk_free_rate: float = 0.0
+    results_df     : pd.DataFrame,
+    interval       : str,
+    risk_free_rate : float = 0.0,
+    n_trials       : Optional[int] = None,
 ) -> dict:
     equity_curve = results_df["equity_curve"]
-    returns = results_df["net_strategy_returns"]
+    returns      = results_df["net_strategy_returns"]
 
     periods_per_year = get_periods_per_year(interval)
 
     total_return = calculate_total_return(equity_curve)
-    cagr = calculate_cagr(equity_curve, periods_per_year)
-    volatility = calculate_volatility(returns, periods_per_year)
-    sharpe = calculate_sharpe_ratio(returns, periods_per_year, risk_free_rate)
-    sortino = calculate_sortino_ratio(returns, periods_per_year, risk_free_rate)
+    cagr         = calculate_cagr(equity_curve, periods_per_year)
+    volatility   = calculate_volatility(returns, periods_per_year)
+    sharpe       = calculate_sharpe_ratio(returns, periods_per_year, risk_free_rate)
+    sortino      = calculate_sortino_ratio(returns, periods_per_year, risk_free_rate)
     max_drawdown = calculate_max_drawdown(equity_curve)
-    calmar = calculate_calmar_ratio(cagr, max_drawdown)
+    calmar       = calculate_calmar_ratio(cagr, max_drawdown)
 
-    return {
-        "total_return": total_return,
-        "cagr": cagr,
-        "volatility": volatility,
-        "sharpe_ratio": sharpe,
+    metrics = {
+        "total_return" : total_return,
+        "cagr"         : cagr,
+        "volatility"   : volatility,
+        "sharpe_ratio" : sharpe,
         "sortino_ratio": sortino,
-        "max_drawdown": max_drawdown,
-        "calmar_ratio": calmar,
+        "max_drawdown" : max_drawdown,
+        "calmar_ratio" : calmar,
     }
+
+    if n_trials is not None:
+        dsr = calculate_deflated_sharpe_ratio(
+            observed_sharpe = sharpe,
+            n_trials        = n_trials,
+            n_bars          = len(returns),
+            returns         = returns,
+            risk_free_rate  = risk_free_rate,
+        )
+        metrics["deflated_sharpe_ratio"] = dsr
+
+    return metrics

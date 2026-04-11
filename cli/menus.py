@@ -11,10 +11,12 @@ def prompt_main_menu():
             "View Results",
             "Run Risk Analysis",
             "Run Optimization",
+            "Run Walk-Forward Validation",
             "Exit",
         ],
         pointer="➤",
     ).ask()
+
 
 def prompt_saved_portfolio_menu(portfolios, title):
     if not portfolios:
@@ -36,6 +38,7 @@ def prompt_saved_portfolio_menu(portfolios, title):
         pointer="➤",
     ).ask()
 
+
 def prompt_saved_portfolio_action_menu():
     return questionary.select(
         "Select an action:",
@@ -48,11 +51,8 @@ def prompt_saved_portfolio_action_menu():
         pointer="➤",
     ).ask()
 
+
 def prompt_sizing_method():
-    """
-    Prompt the user to select a position sizing method.
-    Returns the string value of the selected SizingMethod.
-    """
     return questionary.select(
         "Select position sizing method:",
         choices=[
@@ -76,8 +76,8 @@ def prompt_sizing_method():
         pointer="➤",
     ).ask()
 
+
 def prompt_fixed_fractional_params():
-    """Returns (risk_pct, stop_loss_pct) or None if cancelled."""
     risk_pct_raw = questionary.text(
         "Risk per trade as fraction of portfolio (e.g. 0.02 for 2%):"
     ).ask()
@@ -92,7 +92,7 @@ def prompt_fixed_fractional_params():
 
     try:
         return {
-            "risk_pct":     float(risk_pct_raw),
+            "risk_pct"     : float(risk_pct_raw),
             "stop_loss_pct": float(stop_pct_raw),
         }
     except ValueError:
@@ -100,7 +100,6 @@ def prompt_fixed_fractional_params():
 
 
 def prompt_volatility_target_params():
-    """Returns sizing params dict or None if cancelled."""
     target_raw = questionary.text(
         "Annualized volatility target (e.g. 0.15 for 15%):"
     ).ask()
@@ -111,3 +110,63 @@ def prompt_volatility_target_params():
         return {"target_vol_pct": float(target_raw)}
     except ValueError:
         return {"target_vol_pct": 0.15}
+
+
+def prompt_walk_forward_params():
+    """
+    Prompt user for walk-forward validation parameters.
+    Returns dict of params or None if cancelled.
+    """
+    console_msg = (
+        "\n[#9E9E9E]For daily data: train=756 (3yr), test=252 (1yr) "
+        "are standard industry defaults.[/#9E9E9E]"
+    )
+
+    import questionary as q
+    from rich.console import Console
+    Console().print(console_msg)
+
+    train_raw = q.text("Training window size (bars):").ask()
+    if train_raw is None:
+        return None
+
+    test_raw = q.text("Test window size (bars):").ask()
+    if test_raw is None:
+        return None
+
+    step_raw = q.text(
+        "Step size (bars) [leave blank to use test window size]:"
+    ).ask()
+    if step_raw is None:
+        return None
+
+    ranking = q.select(
+        "Ranking metric for optimization:",
+        choices=[
+            "sharpe_ratio",
+            "calmar_ratio",
+            "sortino_ratio",
+            "total_return",
+        ],
+        pointer="➤",
+    ).ask()
+    if ranking is None:
+        return None
+
+    try:
+        train  = int(train_raw.strip())
+        test   = int(test_raw.strip())
+        step   = int(step_raw.strip()) if step_raw.strip() else test
+        return {
+            "train_period"  : train,
+            "test_period"   : test,
+            "step_size"     : step,
+            "ranking_metric": ranking,
+        }
+    except ValueError:
+        return {
+            "train_period"  : 756,
+            "test_period"   : 252,
+            "step_size"     : 252,
+            "ranking_metric": "sharpe_ratio",
+        }

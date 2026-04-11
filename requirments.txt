@@ -1,6 +1,7 @@
 # Core
 pandas>=2.0.0
 numpy>=1.26.0
+scipy>=1.11.0
 
 # Market data
 yfinance>=0.2.40

@@ -35,6 +35,16 @@ from engine.position_sizer import SizingMethod
 from engine.strategy_runner import generate_signals
 from strategies.registry import AVAILABLE_STRATEGIES
 
+from engine.walk_forward import run_walk_forward
+from engine.monte_carlo import run_monte_carlo_portfolio
+from cli.menus import prompt_walk_forward_params
+from cli.output import (
+    print_walk_forward_results,
+    plot_walk_forward_results,
+    print_monte_carlo_results,
+    plot_monte_carlo_results,
+)
+
 console = Console()
 
 def cancellable_action(func):
@@ -326,6 +336,59 @@ def handle_edit_portfolio(state, portfolio_id, portfolio):
         state["current_portfolio"]    = updated_portfolio
         state["last_backtest_results"] = None
 
+@cancellable_action
+def handle_run_walk_forward(state):
+    portfolio = state.get("current_portfolio")
+
+    if portfolio is None:
+        console.print("[red]No portfolio loaded in the current session.[/red]")
+        return
+
+    params = prompt_walk_forward_params()
+    if params is None:
+        console.print("[#FF9800]Action cancelled. Returning to main menu.[/#FF9800]")
+        return
+
+    console.print("\n[#FF9800]Running walk-forward validation...[/#FF9800]")
+    console.print(
+        f"[#9E9E9E]Train: {params['train_period']} bars | "
+        f"Test: {params['test_period']} bars | "
+        f"Step: {params['step_size']} bars[/#9E9E9E]"
+    )
+
+    market_data    = pull_market_data(portfolio)
+    processed_data = process_market_data(market_data)
+
+    wf_results = run_walk_forward(
+        processed_data  = processed_data,
+        portfolio       = portfolio,
+        train_period    = params["train_period"],
+        test_period     = params["test_period"],
+        step_size       = params["step_size"],
+        ranking_metric  = params["ranking_metric"],
+    )
+
+    console.print("[#26A69A]Walk-forward validation complete.[/#26A69A]")
+    print_walk_forward_results(wf_results)
+    plot_walk_forward_results(wf_results, portfolio)
+
+    # Run Monte Carlo on the most recent backtest results if available
+    backtest_results = state.get("last_backtest_results")
+    if backtest_results:
+        console.print("\n[#FF9800]Running Monte Carlo simulation (10,000 runs)...[/#FF9800]")
+        mc_results = run_monte_carlo_portfolio(
+            backtest_results = backtest_results,
+            portfolio        = portfolio,
+            n_simulations    = 10_000,
+        )
+        print_monte_carlo_results(mc_results)
+        plot_monte_carlo_results(mc_results)
+    else:
+        console.print(
+            "[#9E9E9E]No backtest results in session — run a backtest first "
+            "to also get Monte Carlo analysis.[/#9E9E9E]"
+        )
+
 def handle_exit(state):
     confirmed = confirm_action("Are you sure you want to exit?")
     if not confirmed:
@@ -334,12 +397,13 @@ def handle_exit(state):
     state["running"] = False
 
 MENU_ACTIONS = {
-    "Create Portfolio":      handle_create_portfolio,
-    "View Saved Portfolios": handle_view_saved_portfolios,
-    "View Current Portfolio": handle_view_current_portfolio,
-    "Run Backtest":          handle_run_backtest,
-    "View Results":          handle_view_results,
-    "Run Risk Analysis":     handle_run_risk_analysis,
-    "Run Optimization":      handle_run_optimization,
-    "Exit":                  handle_exit,
+    "Create Portfolio"          : handle_create_portfolio,
+    "View Saved Portfolios"     : handle_view_saved_portfolios,
+    "View Current Portfolio"    : handle_view_current_portfolio,
+    "Run Backtest"              : handle_run_backtest,
+    "View Results"              : handle_view_results,
+    "Run Risk Analysis"         : handle_run_risk_analysis,
+    "Run Optimization"          : handle_run_optimization,
+    "Run Walk-Forward Validation": handle_run_walk_forward,
+    "Exit"                      : handle_exit,
 }
