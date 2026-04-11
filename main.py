@@ -4,10 +4,12 @@ from cli.actions import MENU_ACTIONS
 from cli.inputs import confirm_action
 from cli.menus import prompt_main_menu
 from database.db import initialize_database
+from logger import setup_logging
 
 console = Console()
 
 def main():
+    setup_logging()
     initialize_database()
 
     state = {
@@ -24,7 +26,7 @@ def main():
 
             if choice is None:
                 if confirm_action("Exit application?"):
-                    console.print("\n[#EF5350]Exiting...[#EF5350]")
+                    console.print("\n[#EF5350]Exiting...[/#EF5350]")
                     break
                 continue
 
@@ -38,7 +40,7 @@ def main():
 
         except KeyboardInterrupt:
             if confirm_action("Exit application?"):
-                console.print("\n[#EF5350]Exiting...[#EF5350]")
+                console.print("\n[#EF5350]Exiting...[/#EF5350]")
                 break
 
 if __name__ == "__main__":

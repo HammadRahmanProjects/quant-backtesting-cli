@@ -6,6 +6,9 @@ from cli.inputs import confirm_action, prompt_text
 from cli.menus import (
     prompt_saved_portfolio_menu,
     prompt_saved_portfolio_action_menu,
+    prompt_sizing_method,
+    prompt_fixed_fractional_params,
+    prompt_volatility_target_params,
 )
 from cli.output import (
     print_backtest_results,
@@ -22,12 +25,13 @@ from database.portfolio_store import (
     list_portfolios,
     load_portfolio,
     delete_portfolio,
-    update_portfolio
+    update_portfolio,
 )
 from engine.backtest_runner import run_backtests
 from engine.data_pipeline import process_market_data
 from engine.optimization import optimize_portfolio
 from engine.portfolio_builder import create_portfolio, edit_portfolio
+from engine.position_sizer import SizingMethod
 from engine.strategy_runner import generate_signals
 from strategies.registry import AVAILABLE_STRATEGIES
 
@@ -41,7 +45,6 @@ def cancellable_action(func):
         except KeyboardInterrupt:
             console.print("\n[#FF9800]Action cancelled. Returning to main menu.[/#FF9800]")
             return
-
     return wrapper
 
 def _parse_param_value(raw_value, default_value):
@@ -52,33 +55,28 @@ def _parse_param_value(raw_value, default_value):
         if lowered in {"false", "0", "no", "n"}:
             return False
         raise ValueError("Enter a valid boolean value.")
-
     if isinstance(default_value, int):
         return int(raw_value)
-
     if isinstance(default_value, float):
         return float(raw_value)
-
     return raw_value
 
 def _prompt_strategy_params_map(portfolio):
     strategy_params_map = {}
 
     for ticker in portfolio.tickers:
-        strategy_info = portfolio.strategy_map[ticker]
-        strategy_name = strategy_info["name"]
-
+        strategy_info  = portfolio.strategy_map[ticker]
+        strategy_name  = strategy_info["name"]
         strategy_class = AVAILABLE_STRATEGIES.get(strategy_name)
+
         if strategy_class is None:
             raise ValueError(f"{ticker}: Unknown strategy '{strategy_name}'.")
-
         if not hasattr(strategy_class, "get_param_names"):
             raise ValueError(f"{ticker}: Strategy '{strategy_name}' does not define get_param_names().")
-
         if not hasattr(strategy_class, "get_default_params"):
             raise ValueError(f"{ticker}: Strategy '{strategy_name}' does not define get_default_params().")
 
-        param_names = strategy_class.get_param_names()
+        param_names    = strategy_class.get_param_names()
         default_params = strategy_class.get_default_params()
 
         console.print(f"\n[#2962FF]{ticker} — {strategy_name} parameters[/#2962FF]")
@@ -109,6 +107,32 @@ def _prompt_strategy_params_map(portfolio):
 
     return strategy_params_map
 
+def _prompt_sizing():
+    """
+    Prompt for sizing method and its parameters.
+    Returns (SizingMethod, sizing_params_dict) or (None, None) if cancelled.
+    """
+    method_str = prompt_sizing_method()
+    if method_str is None:
+        return None, None
+
+    method = SizingMethod(method_str)
+
+    if method == SizingMethod.FIXED_FRACTIONAL:
+        params = prompt_fixed_fractional_params()
+        if params is None:
+            return None, None
+        return method, params
+
+    elif method == SizingMethod.VOLATILITY_TARGET:
+        params = prompt_volatility_target_params()
+        if params is None:
+            return None, None
+        return method, params
+
+    # FULL_PORTFOLIO and KELLY need no extra params
+    return method, {}
+
 @cancellable_action
 def handle_create_portfolio(state):
     portfolio = create_portfolio()
@@ -118,7 +142,7 @@ def handle_create_portfolio(state):
         return
 
     save_portfolio(portfolio)
-    state["current_portfolio"] = portfolio
+    state["current_portfolio"]    = portfolio
     state["last_backtest_results"] = None
 
     console.print("[#26A69A]Portfolio created, saved, and stored in session.[/#26A69A]")
@@ -154,7 +178,7 @@ def handle_view_saved_portfolios(state):
             if portfolio is None:
                 console.print("[red]Failed to load portfolio.[/red]")
                 continue
-            state["current_portfolio"] = portfolio
+            state["current_portfolio"]    = portfolio
             state["last_backtest_results"] = None
             console.print("[#26A69A]Portfolio loaded into session.[/#26A69A]")
             continue
@@ -191,12 +215,23 @@ def handle_run_backtest(state):
         console.print("[#FF9800]Action cancelled. Returning to main menu.[/#FF9800]")
         return
 
+    sizing_method, sizing_params = _prompt_sizing()
+    if sizing_method is None:
+        console.print("[#FF9800]Action cancelled. Returning to main menu.[/#FF9800]")
+        return
+
     console.print("\n[#FF9800]Running backtest...[/#FF9800]")
 
-    market_data = pull_market_data(portfolio)
-    processed_data = process_market_data(market_data)
-    signals_data = generate_signals(processed_data, portfolio, strategy_params_map)  
-    backtest_results = run_backtests(signals_data, portfolio)
+    market_data     = pull_market_data(portfolio)
+    processed_data  = process_market_data(market_data)
+    signals_data    = generate_signals(processed_data, portfolio, strategy_params_map)
+    backtest_results = run_backtests(
+        signals_data,
+        portfolio,
+        sizing_method        = sizing_method,
+        sizing_params        = sizing_params,
+        use_event_backtester = True,
+    )
 
     state["last_backtest_results"] = backtest_results
 
@@ -206,7 +241,7 @@ def handle_run_backtest(state):
 
 @cancellable_action
 def handle_view_results(state):
-    portfolio = state.get("current_portfolio")
+    portfolio        = state.get("current_portfolio")
     backtest_results = state.get("last_backtest_results")
 
     if portfolio is None:
@@ -232,12 +267,23 @@ def handle_run_risk_analysis(state):
         console.print("[#FF9800]Action cancelled. Returning to main menu.[/#FF9800]")
         return
 
+    sizing_method, sizing_params = _prompt_sizing()
+    if sizing_method is None:
+        console.print("[#FF9800]Action cancelled. Returning to main menu.[/#FF9800]")
+        return
+
     console.print("\n[#FF9800]Running risk analysis...[/#FF9800]")
 
-    market_data = pull_market_data(portfolio)
-    processed_data = process_market_data(market_data)
-    signals_data = generate_signals(processed_data, portfolio, strategy_params_map)
-    backtest_results = run_backtests(signals_data, portfolio)
+    market_data      = pull_market_data(portfolio)
+    processed_data   = process_market_data(market_data)
+    signals_data     = generate_signals(processed_data, portfolio, strategy_params_map)
+    backtest_results = run_backtests(
+        signals_data,
+        portfolio,
+        sizing_method        = sizing_method,
+        sizing_params        = sizing_params,
+        use_event_backtester = True,
+    )
 
     state["last_backtest_results"] = backtest_results
 
@@ -255,8 +301,8 @@ def handle_run_optimization(state):
 
     console.print("\n[#FF9800]Running optimization...[/#FF9800]")
 
-    market_data = pull_market_data(portfolio)
-    processed_data = process_market_data(market_data)
+    market_data          = pull_market_data(portfolio)
+    processed_data       = process_market_data(market_data)
     optimization_results = optimize_portfolio(processed_data, portfolio)
 
     console.print("[#26A69A]Optimization complete.[/#26A69A]")
@@ -275,28 +321,25 @@ def handle_edit_portfolio(state, portfolio_id, portfolio):
     update_portfolio(portfolio_id, updated_portfolio)
     console.print("[#26A69A]Portfolio updated successfully.[/#26A69A]")
 
-    # If the edited portfolio was the active session one, update it
     current = state.get("current_portfolio")
     if current is not None and current.name == portfolio.name:
-        state["current_portfolio"] = updated_portfolio
+        state["current_portfolio"]    = updated_portfolio
         state["last_backtest_results"] = None
 
 def handle_exit(state):
     confirmed = confirm_action("Are you sure you want to exit?")
-
     if not confirmed:
         return
-
     console.print("[#EF5350]Exiting...[/#EF5350]")
     state["running"] = False
 
 MENU_ACTIONS = {
-    "Create Portfolio": handle_create_portfolio,
+    "Create Portfolio":      handle_create_portfolio,
     "View Saved Portfolios": handle_view_saved_portfolios,
     "View Current Portfolio": handle_view_current_portfolio,
-    "Run Backtest": handle_run_backtest,
-    "View Results": handle_view_results,
-    "Run Risk Analysis": handle_run_risk_analysis,
-    "Run Optimization": handle_run_optimization,
-    "Exit": handle_exit,
+    "Run Backtest":          handle_run_backtest,
+    "View Results":          handle_view_results,
+    "Run Risk Analysis":     handle_run_risk_analysis,
+    "Run Optimization":      handle_run_optimization,
+    "Exit":                  handle_exit,
 }

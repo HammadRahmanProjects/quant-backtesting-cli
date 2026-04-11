@@ -1,0 +1,656 @@
+2026-04-11 01:24:12 | INFO     | root                                | Logging initialized — file: logs/app.log
+2026-04-11 01:24:18 | DEBUG    | database.portfolio_store            | list_portfolios — querying DB
+2026-04-11 01:24:18 | DEBUG    | database.portfolio_store            | list_portfolios — found 3 portfolio(s)
+2026-04-11 01:24:20 | INFO     | database.portfolio_store            | load_portfolio — id: 34
+2026-04-11 01:24:20 | INFO     | database.portfolio_store            | load_portfolio — success | name: test_phase1 | tickers: ['SPY']
+2026-04-11 01:24:20 | DEBUG    | database.portfolio_store            | list_portfolios — querying DB
+2026-04-11 01:24:20 | DEBUG    | database.portfolio_store            | list_portfolios — found 3 portfolio(s)
+2026-04-11 01:24:31 | INFO     | engine.data_pipeline                | Starting data pipeline for 1 ticker(s): ['SPY']
+2026-04-11 01:24:31 | INFO     | engine.data_pipeline                | SPY — pipeline start | input rows: 1509
+2026-04-11 01:24:31 | DEBUG    | engine.data_pipeline                | SPY — cleaning complete | clean: 1509, bad: 0
+2026-04-11 01:24:31 | DEBUG    | data.validators                     | validate_data called — input shape: (1509, 6)
+2026-04-11 01:24:31 | DEBUG    | data.validators                     | validate_data — all 1509 rows passed validation
+2026-04-11 01:24:31 | DEBUG    | data.validators                     | validate_data complete — valid: 1509, invalid: 0
+2026-04-11 01:24:31 | DEBUG    | engine.data_pipeline                | SPY — validation complete | valid: 1509, invalid: 0
+2026-04-11 01:24:31 | INFO     | engine.data_pipeline                | SPY — pipeline complete | final rows: 1509
+2026-04-11 01:24:31 | INFO     | engine.data_pipeline                | Data pipeline complete for all 1 ticker(s)
+2026-04-11 01:24:31 | INFO     | engine.optimization                 | optimize_portfolio — start | tickers: ['SPY'] | ranking metric: sharpe_ratio | chunk size: 250
+2026-04-11 01:24:31 | INFO     | engine.optimization                 | SPY — strategy: mean_reversion | total combos: 61250 | valid: 61250 | pruned: 0
+2026-04-11 01:24:31 | DEBUG    | engine.optimization                 | SPY — 245 chunks of size ~250 | allocated cash: 1000000.00
+2026-04-11 01:24:31 | INFO     | engine.optimization                 | Submitting 245 jobs | total combinations: 61250 | max_workers: auto
+2026-04-11 01:24:36 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:36 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:36 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:36 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:36 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:36 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:36 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:37 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:39 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:39 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:39 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:39 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:39 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:39 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:40 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:40 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:42 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:42 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:42 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:42 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:42 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:42 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:43 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:43 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:44 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:44 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:44 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:44 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:45 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:45 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:46 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:46 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:47 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:47 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:47 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:47 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:48 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:48 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:49 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:49 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:50 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:50 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:50 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:51 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:51 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:51 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:53 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:53 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:54 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:54 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:54 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:54 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:55 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:55 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:56 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:56 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:58 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:58 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:58 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:58 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:58 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:24:58 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:00 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:00 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:01 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:01 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:01 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:01 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:01 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:02 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:03 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:03 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:04 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:04 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:04 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:05 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:05 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:05 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:07 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:07 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:07 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:08 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:08 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:08 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:08 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:09 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:09 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:10 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:10 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:10 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:11 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:11 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:12 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:12 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:12 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:13 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:14 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:14 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:14 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:15 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:15 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:16 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:16 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:16 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:17 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:17 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:17 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:18 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:19 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:19 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:20 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:20 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:20 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:21 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:21 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:22 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:22 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:22 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:23 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:23 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:23 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:24 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:24 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:25 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:26 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:26 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:26 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:26 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:27 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:27 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:27 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:28 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:28 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:29 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:30 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:30 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:30 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:31 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:31 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:31 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:32 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:32 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:33 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:34 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:34 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:34 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:34 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:35 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:35 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:36 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:37 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:37 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:37 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:38 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:38 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:38 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:39 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:39 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:40 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:40 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:41 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:41 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:42 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:42 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:42 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:42 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:43 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:44 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:45 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:45 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:45 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:46 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:46 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:47 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:47 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:48 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:49 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:49 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:49 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:50 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:50 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:50 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:51 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:51 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:52 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:52 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:53 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:53 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:54 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:54 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:54 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:55 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:55 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:56 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:56 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:57 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:57 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:57 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:58 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:58 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:58 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:59 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:25:59 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:00 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:00 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:01 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:01 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:01 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:02 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:02 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:03 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:03 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:04 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:04 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:04 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:05 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:05 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:06 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:06 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:07 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:07 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:07 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:08 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:08 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:08 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:09 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:10 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:10 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:10 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:11 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:17 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:17 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:17 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:17 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:17 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:17 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:17 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:18 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:18 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:20 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:20 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:20 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:20 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:20 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:20 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:26:20 | INFO     | engine.optimization                 | Optimization executor complete | elapsed: 109.24s | 561 combos/sec
+2026-04-11 01:26:21 | INFO     | engine.optimization                 | SPY — best sharpe_ratio: 0.7913 | params: {'window': np.int64(49), 'num_std': np.float64(3.4), 'lower_threshold': np.float64(0.05), 'upper_threshold': np.float64(0.95)}
+2026-04-11 01:26:21 | INFO     | engine.optimization                 | optimize_portfolio complete | 1 ticker(s) | elapsed: 109.24s
+2026-04-11 01:27:02 | INFO     | engine.data_pipeline                | Starting data pipeline for 1 ticker(s): ['SPY']
+2026-04-11 01:27:02 | INFO     | engine.data_pipeline                | SPY — pipeline start | input rows: 1509
+2026-04-11 01:27:02 | DEBUG    | engine.data_pipeline                | SPY — cleaning complete | clean: 1509, bad: 0
+2026-04-11 01:27:02 | DEBUG    | data.validators                     | validate_data called — input shape: (1509, 6)
+2026-04-11 01:27:02 | DEBUG    | data.validators                     | validate_data — all 1509 rows passed validation
+2026-04-11 01:27:02 | DEBUG    | data.validators                     | validate_data complete — valid: 1509, invalid: 0
+2026-04-11 01:27:02 | DEBUG    | engine.data_pipeline                | SPY — validation complete | valid: 1509, invalid: 0
+2026-04-11 01:27:02 | INFO     | engine.data_pipeline                | SPY — pipeline complete | final rows: 1509
+2026-04-11 01:27:02 | INFO     | engine.data_pipeline                | Data pipeline complete for all 1 ticker(s)
+2026-04-11 01:27:02 | INFO     | engine.strategy_runner              | Generating signals for 1 ticker(s): ['SPY']
+2026-04-11 01:27:02 | INFO     | engine.strategy_runner              | SPY — strategy: mean_reversion | params: {'window': 60, 'num_std': 1.5, 'lower_threshold': 0.3, 'upper_threshold': 0.9} | rows: 1509
+2026-04-11 01:27:02 | INFO     | engine.strategy_runner              | SPY — signals generated | long: 300 | short: 580 | flat: 629
+2026-04-11 01:27:02 | INFO     | engine.strategy_runner              | Signal generation complete for all 1 ticker(s)
+2026-04-11 01:27:02 | INFO     | engine.backtest_runner              | Running backtests for 1 ticker(s): ['SPY']
+2026-04-11 01:27:02 | INFO     | engine.backtest_runner              | SPY — starting backtest | allocated cash: 1000000.00 | rows: 1509
+2026-04-11 01:27:02 | DEBUG    | engine.backtester                   | Backtester.run — rows: 1509 | cash: 1000000.00 | commission: 0.0010 | slippage: 0.0010
+2026-04-11 01:27:02 | DEBUG    | engine.backtester                   | Backtester.run complete — final equity: 620745.05 | return: -37.93% | trades: 201 | total cost: 0.4020
+2026-04-11 01:27:02 | INFO     | engine.backtest_runner              | SPY — backtest complete | final equity: 620745.05 | return: -37.93%
+2026-04-11 01:27:02 | INFO     | engine.backtest_runner              | All backtests complete — 1 ticker(s) processed
+2026-04-11 01:51:01 | INFO     | root                                | Logging initialized — file: logs/app.log
+2026-04-11 01:51:53 | DEBUG    | database.portfolio_store            | list_portfolios — querying DB
+2026-04-11 01:51:53 | DEBUG    | database.portfolio_store            | list_portfolios — found 3 portfolio(s)
+2026-04-11 01:51:55 | DEBUG    | database.portfolio_store            | list_portfolios — querying DB
+2026-04-11 01:51:55 | DEBUG    | database.portfolio_store            | list_portfolios — found 3 portfolio(s)
+2026-04-11 01:51:58 | INFO     | database.portfolio_store            | delete_portfolio — id: 34
+2026-04-11 01:51:58 | INFO     | database.portfolio_store            | delete_portfolio — success | id: 34
+2026-04-11 01:51:58 | DEBUG    | database.portfolio_store            | list_portfolios — querying DB
+2026-04-11 01:51:58 | DEBUG    | database.portfolio_store            | list_portfolios — found 2 portfolio(s)
+2026-04-11 01:52:05 | INFO     | database.portfolio_store            | delete_portfolio — id: 33
+2026-04-11 01:52:05 | INFO     | database.portfolio_store            | delete_portfolio — success | id: 33
+2026-04-11 01:52:05 | DEBUG    | database.portfolio_store            | list_portfolios — querying DB
+2026-04-11 01:52:05 | DEBUG    | database.portfolio_store            | list_portfolios — found 1 portfolio(s)
+2026-04-11 01:52:08 | INFO     | database.portfolio_store            | delete_portfolio — id: 32
+2026-04-11 01:52:08 | INFO     | database.portfolio_store            | delete_portfolio — success | id: 32
+2026-04-11 01:52:08 | DEBUG    | database.portfolio_store            | list_portfolios — querying DB
+2026-04-11 01:52:08 | DEBUG    | database.portfolio_store            | list_portfolios — found 0 portfolio(s)
+2026-04-11 01:52:15 | INFO     | engine.portfolio_builder            | create_portfolio — started
+2026-04-11 01:53:18 | DEBUG    | engine.portfolio_builder            | SPY — strategy selected: mean_reversion
+2026-04-11 01:53:47 | DEBUG    | engine.portfolio_builder            | Portfolio confirmed: test_phase4
+2026-04-11 01:53:47 | INFO     | engine.portfolio_builder            | create_portfolio — complete | name: test_phase4 | tickers: ['SPY'] | cash: 10000.00
+2026-04-11 01:53:48 | INFO     | database.portfolio_store            | save_portfolio — name: test_phase4 | tickers: ['SPY'] | cash: 10000.00
+2026-04-11 01:53:48 | INFO     | database.portfolio_store            | save_portfolio — success | name: test_phase4
+2026-04-11 01:53:51 | DEBUG    | database.portfolio_store            | list_portfolios — querying DB
+2026-04-11 01:53:51 | DEBUG    | database.portfolio_store            | list_portfolios — found 1 portfolio(s)
+2026-04-11 01:53:52 | INFO     | database.portfolio_store            | load_portfolio — id: 35
+2026-04-11 01:53:52 | INFO     | database.portfolio_store            | load_portfolio — success | name: test_phase4 | tickers: ['SPY']
+2026-04-11 01:53:52 | DEBUG    | database.portfolio_store            | list_portfolios — querying DB
+2026-04-11 01:53:52 | DEBUG    | database.portfolio_store            | list_portfolios — found 1 portfolio(s)
+2026-04-11 01:53:57 | INFO     | engine.data_pipeline                | Starting data pipeline for 1 ticker(s): ['SPY']
+2026-04-11 01:53:57 | INFO     | engine.data_pipeline                | SPY — pipeline start | input rows: 1509
+2026-04-11 01:53:57 | DEBUG    | engine.data_pipeline                | SPY — cleaning complete | clean: 1509, bad: 0
+2026-04-11 01:53:57 | DEBUG    | data.validators                     | validate_data called — input shape: (1509, 6)
+2026-04-11 01:53:57 | DEBUG    | data.validators                     | validate_data — all 1509 rows passed validation
+2026-04-11 01:53:57 | DEBUG    | data.validators                     | validate_data complete — valid: 1509, invalid: 0
+2026-04-11 01:53:57 | DEBUG    | engine.data_pipeline                | SPY — validation complete | valid: 1509, invalid: 0
+2026-04-11 01:53:57 | INFO     | engine.data_pipeline                | SPY — pipeline complete | final rows: 1509
+2026-04-11 01:53:57 | INFO     | engine.data_pipeline                | Data pipeline complete for all 1 ticker(s)
+2026-04-11 01:53:57 | INFO     | engine.optimization                 | optimize_portfolio — start | tickers: ['SPY'] | ranking metric: sharpe_ratio | chunk size: 250
+2026-04-11 01:53:57 | INFO     | engine.optimization                 | SPY — strategy: mean_reversion | total combos: 61250 | valid: 61250 | pruned: 0
+2026-04-11 01:53:57 | DEBUG    | engine.optimization                 | SPY — 245 chunks of size ~250 | allocated cash: 10000.00
+2026-04-11 01:53:57 | INFO     | engine.optimization                 | Submitting 245 jobs | total combinations: 61250 | max_workers: auto
+2026-04-11 01:54:03 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:03 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:03 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:03 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:03 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:03 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:03 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:03 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:06 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:06 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:07 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:07 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:07 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:07 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:07 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:07 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:10 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:10 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:10 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:10 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:11 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:11 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:11 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:11 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:13 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:13 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:13 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:14 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:14 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:14 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:15 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:15 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:16 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:16 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:17 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:17 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:17 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:17 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:18 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:18 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:19 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:20 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:20 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:20 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:21 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:21 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:21 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:21 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:23 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:23 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:24 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:24 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:25 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:25 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:25 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:26 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:28 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:29 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:29 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:30 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:33 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:33 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:33 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:33 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:33 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:34 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:34 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:34 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:35 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:37 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:37 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:37 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:37 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:37 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:38 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:38 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:38 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:41 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:41 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:41 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:41 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:42 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:42 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:42 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:42 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:43 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:44 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:44 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:45 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:45 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:45 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:46 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:46 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:47 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:47 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:48 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:48 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:49 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:49 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:49 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:49 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:51 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:51 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:51 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:51 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:52 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:53 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:53 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:54 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:54 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:54 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:55 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:55 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:56 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:56 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:57 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:57 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:58 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:58 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:58 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:59 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:59 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:54:59 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:00 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:01 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:01 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:01 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:02 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:02 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:03 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:04 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:04 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:04 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:04 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:05 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:05 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:06 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:06 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:06 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:07 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:07 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:07 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:07 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:08 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:09 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:09 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:10 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:10 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:10 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:10 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:11 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:12 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:12 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:12 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:13 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:13 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:13 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:13 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:14 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:15 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:15 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:16 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:16 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:16 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:16 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:17 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:17 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:17 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:18 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:18 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:19 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:19 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:20 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:20 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:20 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:21 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:21 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:22 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:22 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:22 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:23 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:23 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:23 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:24 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:24 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:25 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:25 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:25 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:26 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:26 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:27 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:27 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:28 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:28 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:28 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:28 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:29 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:29 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:30 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:31 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:31 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:31 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:31 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:32 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:32 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:33 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:33 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:34 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:34 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:34 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:34 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:35 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:36 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:36 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:36 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:37 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:37 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:37 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:37 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:38 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:38 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:39 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:40 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:40 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:40 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:41 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:41 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:41 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:41 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:43 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:43 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:43 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:43 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:44 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:44 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:44 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:44 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:46 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:46 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:46 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:46 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:46 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:51 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:51 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:51 | DEBUG    | engine.optimization                 | SPY — chunk complete | 250 results received
+2026-04-11 01:55:51 | INFO     | engine.optimization                 | Optimization executor complete | elapsed: 114.12s | 537 combos/sec
+2026-04-11 01:55:51 | INFO     | engine.optimization                 | SPY — best sharpe_ratio: 0.7913 | params: {'window': np.int64(47), 'num_std': np.float64(3.4), 'lower_threshold': np.float64(0.05), 'upper_threshold': np.float64(0.95)}
+2026-04-11 01:55:51 | INFO     | engine.optimization                 | optimize_portfolio complete | 1 ticker(s) | elapsed: 114.12s
+2026-04-11 01:59:05 | INFO     | engine.data_pipeline                | Starting data pipeline for 1 ticker(s): ['SPY']
+2026-04-11 01:59:05 | INFO     | engine.data_pipeline                | SPY — pipeline start | input rows: 1509
+2026-04-11 01:59:05 | DEBUG    | engine.data_pipeline                | SPY — cleaning complete | clean: 1509, bad: 0
+2026-04-11 01:59:05 | DEBUG    | data.validators                     | validate_data called — input shape: (1509, 6)
+2026-04-11 01:59:05 | DEBUG    | data.validators                     | validate_data — all 1509 rows passed validation
+2026-04-11 01:59:05 | DEBUG    | data.validators                     | validate_data complete — valid: 1509, invalid: 0
+2026-04-11 01:59:05 | DEBUG    | engine.data_pipeline                | SPY — validation complete | valid: 1509, invalid: 0
+2026-04-11 01:59:05 | INFO     | engine.data_pipeline                | SPY — pipeline complete | final rows: 1509
+2026-04-11 01:59:05 | INFO     | engine.data_pipeline                | Data pipeline complete for all 1 ticker(s)
+2026-04-11 01:59:05 | INFO     | engine.strategy_runner              | Generating signals for 1 ticker(s): ['SPY']
+2026-04-11 01:59:05 | INFO     | engine.strategy_runner              | SPY — strategy: mean_reversion | params: {'window': 47, 'num_std': 3.4, 'lower_threshold': 0.05, 'upper_threshold': 0.95} | rows: 1509
+2026-04-11 01:59:05 | INFO     | engine.strategy_runner              | SPY — signals generated | long: 10 | short: 0 | flat: 1499
+2026-04-11 01:59:05 | INFO     | engine.strategy_runner              | Signal generation complete for all 1 ticker(s)
+2026-04-11 01:59:05 | INFO     | engine.backtest_runner              | run_backtests — 1 ticker(s): ['SPY'] | engine: event-driven | sizing: full_portfolio
+2026-04-11 01:59:05 | INFO     | engine.backtest_runner              | SPY — starting backtest | cash: 10000.00 | rows: 1509
+2026-04-11 01:59:05 | DEBUG    | engine.execution_handler            | SimulatedExecutionHandler initialized | commission: 0.0010 | slippage: 0.0010
+2026-04-11 01:59:05 | INFO     | engine.event_backtester             | EventBacktester initialized | cash: 10000.00 | sizing: full_portfolio | rows: 1509
+2026-04-11 01:59:05 | INFO     | engine.event_backtester             | EventBacktester.run — start | rows: 1509 | sizing: full_portfolio
+2026-04-11 01:59:05 | DEBUG    | engine.position_sizer               | size_full_portfolio — value: 10000.00 | price: 272.17 | shares: 36.7417
+2026-04-11 01:59:05 | DEBUG    | engine.event_backtester             | Bar 196 — order queued | BUY | qty: 36.7417
+2026-04-11 01:59:05 | DEBUG    | engine.execution_handler            | asset — fill | BUY | qty: 36.7417 | base: 276.7700 | fill: 277.0468 | commission: 10.1792 | slippage: 10.1690 | total: 10189.3592
+2026-04-11 01:59:05 | DEBUG    | engine.event_backtester             | asset — fill processed | BUY | qty: 0.0000→36.7417 | cash: -189.36
+2026-04-11 01:59:05 | DEBUG    | engine.event_backtester             | Bar 197 — order queued | SELL | qty: 36.7417
+2026-04-11 01:59:05 | DEBUG    | engine.execution_handler            | asset — fill | SELL | qty: 36.7417 | base: 275.5500 | fill: 275.2744 | commission: 10.1141 | slippage: 10.1242 | total: 10124.1759
+2026-04-11 01:59:05 | DEBUG    | engine.event_backtester             | asset — fill processed | SELL | qty: 36.7417→0.0000 | cash: 9914.59
+2026-04-11 01:59:05 | DEBUG    | engine.position_sizer               | size_full_portfolio — value: 9914.59 | price: 265.32 | shares: 37.3684
+2026-04-11 01:59:05 | DEBUG    | engine.event_backtester             | Bar 205 — order queued | BUY | qty: 37.3684
+2026-04-11 01:59:05 | DEBUG    | engine.execution_handler            | asset — fill | BUY | qty: 37.3684 | base: 267.3800 | fill: 267.6474 | commission: 10.0016 | slippage: 9.9916 | total: 10011.5606
+2026-04-11 01:59:05 | DEBUG    | engine.event_backtester             | asset — fill processed | BUY | qty: 0.0000→37.3684 | cash: -96.97
+2026-04-11 01:59:05 | DEBUG    | engine.event_backtester             | Bar 206 — order queued | SELL | qty: 37.3684
+2026-04-11 01:59:05 | DEBUG    | engine.execution_handler            | asset — fill | SELL | qty: 37.3684 | base: 265.9200 | fill: 265.6541 | commission: 9.9271 | slippage: 9.9370 | total: 9937.0000
+2026-04-11 01:59:05 | DEBUG    | engine.event_backtester             | asset — fill processed | SELL | qty: 37.3684→0.0000 | cash: 9820.17
+2026-04-11 01:59:05 | DEBUG    | engine.position_sizer               | size_full_portfolio — value: 9820.17 | price: 240.70 | shares: 40.7984
+2026-04-11 01:59:05 | DEBUG    | engine.event_backtester             | Bar 245 — order queued | BUY | qty: 40.7984
+2026-04-11 01:59:05 | DEBUG    | engine.execution_handler            | asset — fill | BUY | qty: 40.7984 | base: 239.0400 | fill: 239.2790 | commission: 9.7622 | slippage: 9.7524 | total: 9771.9630
+2026-04-11 01:59:05 | DEBUG    | engine.event_backtester             | asset — fill processed | BUY | qty: 0.0000→40.7984 | cash: 48.21
+2026-04-11 01:59:05 | DEBUG    | engine.position_sizer               | size_full_portfolio — value: 9608.91 | price: 234.34 | shares: 41.0041
+2026-04-11 01:59:05 | DEBUG    | engine.event_backtester             | Bar 247 — order queued | SELL | qty: 40.7984
+2026-04-11 01:59:05 | DEBUG    | engine.execution_handler            | asset — fill | SELL | qty: 40.7984 | base: 242.5700 | fill: 242.3274 | commission: 9.8866 | slippage: 9.8965 | total: 9896.4573
+2026-04-11 01:59:05 | DEBUG    | engine.event_backtester             | asset — fill processed | SELL | qty: 40.7984→0.0000 | cash: 9924.90
+2026-04-11 01:59:05 | DEBUG    | engine.position_sizer               | size_full_portfolio — value: 9924.90 | price: 297.51 | shares: 33.3599
+2026-04-11 01:59:05 | DEBUG    | engine.event_backtester             | Bar 541 — order queued | BUY | qty: 33.3599
+2026-04-11 01:59:05 | DEBUG    | engine.execution_handler            | asset — fill | BUY | qty: 33.3599 | base: 288.7000 | fill: 288.9887 | commission: 9.6406 | slippage: 9.6310 | total: 9650.2662
+2026-04-11 01:59:05 | DEBUG    | engine.event_backtester             | asset — fill processed | BUY | qty: 0.0000→33.3599 | cash: 274.63
+2026-04-11 01:59:05 | DEBUG    | engine.position_sizer               | size_full_portfolio — value: 10157.82 | price: 296.26 | shares: 34.2869
+2026-04-11 01:59:05 | DEBUG    | engine.event_backtester             | Bar 543 — order queued | SELL | qty: 33.3599
+2026-04-11 01:59:05 | DEBUG    | engine.execution_handler            | asset — fill | SELL | qty: 33.3599 | base: 309.5000 | fill: 309.1905 | commission: 10.3146 | slippage: 10.3249 | total: 10324.8691
+2026-04-11 01:59:05 | DEBUG    | engine.event_backtester             | asset — fill processed | SELL | qty: 33.3599→0.0000 | cash: 10578.87
+2026-04-11 01:59:05 | DEBUG    | engine.position_sizer               | size_full_portfolio — value: 10578.87 | price: 274.23 | shares: 38.5766
+2026-04-11 01:59:05 | DEBUG    | engine.event_backtester             | Bar 548 — order queued | BUY | qty: 38.5766
+2026-04-11 01:59:05 | DEBUG    | engine.execution_handler            | asset — fill | BUY | qty: 38.5766 | base: 284.6400 | fill: 284.9247 | commission: 10.9914 | slippage: 10.9805 | total: 11002.4236
+2026-04-11 01:59:05 | DEBUG    | engine.event_backtester             | asset — fill processed | BUY | qty: 0.0000→38.5766 | cash: -423.55
+2026-04-11 01:59:05 | DEBUG    | engine.event_backtester             | Bar 549 — order queued | SELL | qty: 38.5766
+2026-04-11 01:59:05 | DEBUG    | engine.execution_handler            | asset — fill | SELL | qty: 38.5766 | base: 280.7000 | fill: 280.4193 | commission: 10.8176 | slippage: 10.8285 | total: 10828.4488
+2026-04-11 01:59:05 | DEBUG    | engine.event_backtester             | asset — fill processed | SELL | qty: 38.5766→0.0000 | cash: 10383.26
+2026-04-11 01:59:05 | DEBUG    | engine.position_sizer               | size_full_portfolio — value: 10383.26 | price: 248.11 | shares: 41.8494
+2026-04-11 01:59:05 | DEBUG    | engine.event_backtester             | Bar 551 — order queued | BUY | qty: 41.8494
+2026-04-11 01:59:05 | DEBUG    | engine.execution_handler            | asset — fill | BUY | qty: 41.8494 | base: 263.0900 | fill: 263.3531 | commission: 11.0212 | slippage: 11.0102 | total: 11032.1943
+2026-04-11 01:59:05 | DEBUG    | engine.event_backtester             | asset — fill processed | BUY | qty: 0.0000→41.8494 | cash: -648.94
+2026-04-11 01:59:05 | DEBUG    | engine.event_backtester             | Bar 552 — order queued | SELL | qty: 41.8494
+2026-04-11 01:59:05 | DEBUG    | engine.execution_handler            | asset — fill | SELL | qty: 41.8494 | base: 241.1800 | fill: 240.9388 | commission: 10.0831 | slippage: 10.0932 | total: 10093.2320
+2026-04-11 01:59:05 | DEBUG    | engine.event_backtester             | asset — fill processed | SELL | qty: 41.8494→0.0000 | cash: 9424.13
+2026-04-11 01:59:05 | DEBUG    | engine.position_sizer               | size_full_portfolio — value: 9424.13 | price: 239.85 | shares: 39.2918
+2026-04-11 01:59:05 | DEBUG    | engine.event_backtester             | Bar 553 — order queued | BUY | qty: 39.2918
+2026-04-11 01:59:05 | DEBUG    | engine.execution_handler            | asset — fill | BUY | qty: 39.2918 | base: 245.0400 | fill: 245.2850 | commission: 9.6377 | slippage: 9.6281 | total: 9647.3198
+2026-04-11 01:59:05 | DEBUG    | engine.event_backtester             | asset — fill processed | BUY | qty: 0.0000→39.2918 | cash: -223.19
+2026-04-11 01:59:05 | DEBUG    | engine.event_backtester             | Bar 554 — order queued | SELL | qty: 39.2918
+2026-04-11 01:59:05 | DEBUG    | engine.execution_handler            | asset — fill | SELL | qty: 39.2918 | base: 236.2500 | fill: 236.0137 | commission: 9.2734 | slippage: 9.2827 | total: 9282.6704
+2026-04-11 01:59:05 | DEBUG    | engine.event_backtester             | asset — fill processed | SELL | qty: 39.2918→0.0000 | cash: 9040.93
+2026-04-11 01:59:05 | DEBUG    | engine.position_sizer               | size_full_portfolio — value: 9040.93 | price: 437.98 | shares: 20.6423
+2026-04-11 01:59:05 | DEBUG    | engine.event_backtester             | Bar 1021 — order queued | BUY | qty: 20.6423
+2026-04-11 01:59:05 | DEBUG    | engine.execution_handler            | asset — fill | BUY | qty: 20.6423 | base: 432.0300 | fill: 432.4620 | commission: 8.9270 | slippage: 8.9181 | total: 8935.9570
+2026-04-11 01:59:05 | DEBUG    | engine.event_backtester             | asset — fill processed | BUY | qty: 0.0000→20.6423 | cash: 104.98
+2026-04-11 01:59:05 | DEBUG    | engine.event_backtester             | Bar 1022 — order queued | SELL | qty: 20.6423
+2026-04-11 01:59:05 | DEBUG    | engine.execution_handler            | asset — fill | SELL | qty: 20.6423 | base: 433.0600 | fill: 432.6269 | commission: 8.9304 | slippage: 8.9394 | total: 8939.3645
+2026-04-11 01:59:05 | DEBUG    | engine.event_backtester             | asset — fill processed | SELL | qty: 20.6423→0.0000 | cash: 9026.48
+2026-04-11 01:59:05 | INFO     | engine.event_backtester             | EventBacktester.run complete | final equity: 9026.48 | return: -9.74% | trades: 16
+2026-04-11 01:59:05 | INFO     | engine.backtest_runner              | SPY — backtest complete | final equity: 9026.48 | return: -9.74%
+2026-04-11 01:59:05 | INFO     | engine.backtest_runner              | run_backtests complete — 1 ticker(s) processed
