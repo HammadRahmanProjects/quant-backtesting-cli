@@ -422,14 +422,20 @@ def print_walk_forward_results(wf_results):
             console.print(f"Calmar Ratio:  {wf_result.oos_metrics.get('calmar_ratio', 0):.4f}")
 
         console.print("\n[#AB47BC]Per-Window Results[/#AB47BC]")
+
         for w in wf_result.windows:
+            # Clean numpy types from params for display
+            clean_params = {
+                k: v.item() if hasattr(v, "item") else v
+                for k, v in w.best_params.items()
+            }
             console.print(
                 f"  Window {w.window_index} | "
                 f"Train: {str(w.train_start.date())}→{str(w.train_end.date())} | "
                 f"Test: {str(w.test_start.date())}→{str(w.test_end.date())} | "
                 f"Train {wf_result.ranking_metric}: {w.best_train_metric:.4f} | "
                 f"OOS {wf_result.ranking_metric}: {w.test_metrics.get(wf_result.ranking_metric, 0):.4f} | "
-                f"Params: {w.best_params}"
+                f"Params: {clean_params}"
             )
 
 def plot_walk_forward_results(wf_results, portfolio):
@@ -492,9 +498,7 @@ def plot_walk_forward_results(wf_results, portfolio):
             )
             stability_fig.show()
 
-
 def print_monte_carlo_results(mc_results):
-    """Print Monte Carlo simulation summary."""
     if not mc_results:
         console.print("[#FF9800]No Monte Carlo results to display.[/#FF9800]")
         return
@@ -505,15 +509,24 @@ def print_monte_carlo_results(mc_results):
         console.print(f"\n[bold]{ticker}[/bold]")
         console.print(f"Simulations:        {mc.n_simulations:,}")
         console.print(f"Confidence level:   {mc.confidence * 100:.0f}%")
+        console.print(f"Active bars:        {mc.n_active_bars:,}")
+
+        if mc.n_active_bars == 0:
+            console.print(
+                "[#FF9800]Insufficient active bars — "
+                "run a backtest with more frequent signals first.[/#FF9800]"
+            )
+            continue
+
         console.print(f"\n[#26A69A]Observed vs Simulated[/#26A69A]")
         console.print(f"Observed Sharpe:    {mc.observed_sharpe:.4f}")
         console.print(f"Simulated Sharpe:   [{mc.sharpe_ci_lower:.4f}, {mc.sharpe_ci_upper:.4f}]")
         console.print(f"Observed Max DD:    {mc.observed_max_dd * 100:.2f}%")
         console.print(f"Simulated Max DD:   [{mc.max_dd_ci_lower * 100:.2f}%, {mc.max_dd_ci_upper * 100:.2f}%]")
+
         console.print(f"\n[#AB47BC]Edge Assessment[/#AB47BC]")
         console.print(f"P(genuine edge):    {mc.prob_outperformance * 100:.1f}%")
 
-        # Interpret the result
         if mc.prob_outperformance >= 0.95:
             console.print("[#26A69A]Strong evidence of genuine edge[/#26A69A]")
         elif mc.prob_outperformance >= 0.80:

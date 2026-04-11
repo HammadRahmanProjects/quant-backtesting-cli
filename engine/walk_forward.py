@@ -4,6 +4,7 @@ from concurrent.futures import ProcessPoolExecutor, as_completed
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Tuple
 
+import numpy as np
 import pandas as pd
 from rich.progress import (
     BarColumn,
@@ -16,25 +17,14 @@ from rich.progress import (
 
 from engine.backtester import Backtester
 from engine.metrics import compute_all_metrics
-from engine.optimization import (
-    _build_param_combinations,
-    _chunk_list,
-    _evaluate_param_chunk,
-    _is_valid_param_combo,
-)
 from engine.portfolio_builder import get_allocated_cash
 from strategies.registry import AVAILABLE_STRATEGIES
 
 logger = logging.getLogger(__name__)
 
 
-# ---------------------------------------------------------------------------
-# Result containers
-# ---------------------------------------------------------------------------
-
 @dataclass
 class WindowResult:
-    """Results for a single walk-forward window."""
     window_index     : int
     train_start      : Any
     train_end        : Any
@@ -50,24 +40,18 @@ class WindowResult:
 
 @dataclass
 class WalkForwardResult:
-    """Aggregated results across all walk-forward windows for a single ticker."""
     ticker           : str
     strategy_name    : str
     train_period     : int
     test_period      : int
     step_size        : int
     ranking_metric   : str
-    windows          : List[WindowResult]      = field(default_factory=list)
-    oos_equity_curve : List[float]             = field(default_factory=list)
-    param_stability  : List[Dict[str, Any]]    = field(default_factory=list)
-    oos_metrics      : Dict[str, float]        = field(default_factory=dict)
-    elapsed_seconds  : float                   = 0.0
+    windows          : List[WindowResult]   = field(default_factory=list)
+    oos_equity_curve : List[float]          = field(default_factory=list)
+    param_stability  : List[Dict[str, Any]] = field(default_factory=list)
+    oos_metrics      : Dict[str, float]     = field(default_factory=dict)
+    elapsed_seconds  : float                = 0.0
 
-
-# ---------------------------------------------------------------------------
-# Step 1 helper — backtest a single test window
-# (defined before _optimize_window so it's in scope)
-# ---------------------------------------------------------------------------
 
 def _backtest_window(
     df             : pd.DataFrame,
@@ -79,10 +63,6 @@ def _backtest_window(
     slippage_rate  : float,
     interval       : str,
 ) -> Tuple[Dict[str, float], List[float]]:
-    """
-    Run a single backtest on a test window using the given params.
-    Returns (metrics_dict, equity_curve_list).
-    """
     strategy_class = AVAILABLE_STRATEGIES.get(strategy_name)
 
     if strategy_class is None:
@@ -104,11 +84,6 @@ def _backtest_window(
     return metrics, results_df["equity_curve"].tolist()
 
 
-# ---------------------------------------------------------------------------
-# Step 2 helper — optimize a single training window
-# Uses ProcessPoolExecutor for the same parallelism as main optimization
-# ---------------------------------------------------------------------------
-
 def _optimize_window(
     df             : pd.DataFrame,
     ticker         : str,
@@ -118,19 +93,27 @@ def _optimize_window(
     slippage_rate  : float,
     interval       : str,
     ranking_metric : str,
-    chunk_size     : int = 250,
+    batch_size     : int = 5000,
+    chunk_size     : int = 5000,
     max_workers    : int | None = None,
     progress       = None,
     inner_task     = None,
 ) -> Tuple[Dict[str, Any], float]:
-    """
-    Run a parallelized optimization on a single training window.
-    Returns (best_params, best_metric_value).
-    """
+    from engine.optimization import (
+        _build_param_combinations,
+        _is_valid_param_combo,
+        _run_numpy_chunk,
+    )
+
     strategy_class = AVAILABLE_STRATEGIES.get(strategy_name)
 
     if strategy_class is None:
         raise ValueError(f"Unknown strategy: {strategy_name}")
+
+    if not hasattr(strategy_class, "generate_signals_numpy"):
+        raise ValueError(
+            f"Strategy '{strategy_name}' does not implement generate_signals_numpy()."
+        )
 
     param_grid         = strategy_class.get_optimization_grid()
     param_names        = strategy_class.get_param_names()
@@ -146,33 +129,42 @@ def _optimize_window(
 
     n_valid = len(valid_combinations)
 
-    logger.debug(
-        "%s — window optimization | valid combos: %d",
-        ticker,
-        n_valid,
-    )
+    logger.debug("%s — window optimization | valid combos: %d", ticker, n_valid)
 
     if progress is not None and inner_task is not None:
         progress.reset(inner_task, total=n_valid)
 
-    chunks      = _chunk_list(valid_combinations, chunk_size)
+    close_prices = df["close"].values.astype(np.float64)
+    volume       = (
+        df["volume"].values.astype(np.float64)
+        if "volume" in df.columns
+        else None
+    )
+
+    combo_chunks = [
+        valid_combinations[i:i + chunk_size]
+        for i in range(0, n_valid, chunk_size)
+    ]
+
     all_results = []
     completed   = 0
 
     with ProcessPoolExecutor(max_workers=max_workers) as executor:
         future_to_chunk = {
             executor.submit(
-                _evaluate_param_chunk,
+                _run_numpy_chunk,
+                close_prices,
+                volume,
                 ticker,
-                df,
-                strategy_name,
+                strategy_class,
                 chunk,
                 initial_cash,
                 commission_rate,
                 slippage_rate,
                 interval,
+                batch_size,
             ): chunk
-            for chunk in chunks
+            for chunk in combo_chunks
         }
 
         for future in as_completed(future_to_chunk):
@@ -185,12 +177,8 @@ def _optimize_window(
                     progress.update(inner_task, completed=completed)
 
             except Exception as e:
-                logger.warning(
-                    "%s — chunk failed in window optimization: %s",
-                    ticker,
-                    e,
-                )
-                continue
+                logger.error("%s — window chunk failed: %s", ticker, e, exc_info=True)
+                raise
 
     if not all_results:
         raise ValueError(f"{ticker}: No results generated for window.")
@@ -201,8 +189,11 @@ def _optimize_window(
         raise ValueError(f"Ranking metric '{ranking_metric}' not found.")
 
     best_row    = results_df.loc[results_df[ranking_metric].idxmax()]
-    best_params = {k: best_row[k] for k in param_names}
     best_metric = float(best_row[ranking_metric])
+    best_params = {
+        k: v.item() if hasattr(v, "item") else v
+        for k, v in {k: best_row[k] for k in param_names}.items()
+    }
 
     logger.debug(
         "%s — best %s: %.4f | params: %s",
@@ -215,10 +206,6 @@ def _optimize_window(
     return best_params, best_metric
 
 
-# ---------------------------------------------------------------------------
-# Main walk-forward engine
-# ---------------------------------------------------------------------------
-
 def run_walk_forward(
     processed_data : Dict[str, pd.DataFrame],
     portfolio,
@@ -226,38 +213,15 @@ def run_walk_forward(
     test_period    : int,
     step_size      : Optional[int] = None,
     ranking_metric : str = "sharpe_ratio",
-    chunk_size     : int = 250,
+    batch_size     : int = 5000,
+    chunk_size     : int = 5000,
     max_workers    : int | None = None,
 ) -> Dict[str, WalkForwardResult]:
-    """
-    Run walk-forward validation for all tickers in the portfolio.
-
-    For each ticker:
-        1. Slice a training window of `train_period` bars
-        2. Optimize on training window (parallel) → find best params
-        3. Test on next `test_period` bars using best params
-        4. Roll forward by `step_size` bars and repeat
-
-    Args:
-        processed_data : dict of ticker → cleaned DataFrame
-        portfolio      : Portfolio object
-        train_period   : number of bars in each training window
-        test_period    : number of bars in each test window
-        step_size      : bars to roll forward each iteration
-                         defaults to test_period (non-overlapping windows)
-        ranking_metric : metric to optimize on in training window
-        chunk_size     : param combinations per chunk
-        max_workers    : max parallel workers (None = auto)
-
-    Returns:
-        Dict[ticker → WalkForwardResult]
-    """
     if step_size is None:
         step_size = test_period
 
     logger.info(
-        "run_walk_forward — start | tickers: %s | train: %d | "
-        "test: %d | step: %d | metric: %s",
+        "run_walk_forward — start | tickers: %s | train: %d | test: %d | step: %d | metric: %s",
         list(processed_data.keys()),
         train_period,
         test_period,
@@ -269,11 +233,7 @@ def run_walk_forward(
     start_time = time.perf_counter()
 
     for ticker, df in processed_data.items():
-        logger.info(
-            "%s — walk-forward start | total bars: %d",
-            ticker,
-            len(df),
-        )
+        logger.info("%s — walk-forward start | total bars: %d", ticker, len(df))
 
         strategy_info = portfolio.strategy_map[ticker]
         strategy_name = strategy_info["name"]
@@ -288,10 +248,9 @@ def run_walk_forward(
             ranking_metric = ranking_metric,
         )
 
-        # Pre-calculate number of windows for outer progress bar
-        total_bars   = len(df)
-        n_windows    = 0
-        temp_start   = 0
+        total_bars = len(df)
+        n_windows  = 0
+        temp_start = 0
         while temp_start + train_period + test_period <= total_bars:
             n_windows  += 1
             temp_start += step_size
@@ -306,12 +265,10 @@ def run_walk_forward(
             MofNCompleteColumn(),
             TimeElapsedColumn(),
         ) as progress:
-
             outer_task = progress.add_task(
                 f"[#2962FF]{ticker} — Walk-Forward Windows",
                 total=n_windows,
             )
-
             inner_task = progress.add_task(
                 "[#FF9800]Optimizing window...",
                 total=100,
@@ -346,8 +303,7 @@ def run_walk_forward(
                 )
 
                 logger.info(
-                    "%s — window %d | train: %s→%s (%d bars) | "
-                    "test: %s→%s (%d bars)",
+                    "%s — window %d | train: %s→%s (%d bars) | test: %s→%s (%d bars)",
                     ticker,
                     window_index,
                     train_df["datetime"].iloc[0].date(),
@@ -358,9 +314,6 @@ def run_walk_forward(
                     len(test_df),
                 )
 
-                # -----------------------------------------------------------
-                # Optimize on training window
-                # -----------------------------------------------------------
                 try:
                     best_params, best_metric = _optimize_window(
                         df             = train_df,
@@ -371,6 +324,7 @@ def run_walk_forward(
                         slippage_rate  = portfolio.slippage_rate,
                         interval       = portfolio.interval,
                         ranking_metric = ranking_metric,
+                        batch_size     = batch_size,
                         chunk_size     = chunk_size,
                         max_workers    = max_workers,
                         progress       = progress,
@@ -397,9 +351,6 @@ def run_walk_forward(
                     best_params,
                 )
 
-                # -----------------------------------------------------------
-                # Backtest on test window
-                # -----------------------------------------------------------
                 progress.update(
                     inner_task,
                     description="[#26A69A]Running test window backtest...",
@@ -437,9 +388,6 @@ def run_walk_forward(
                     test_metrics.get("total_return", 0.0) * 100,
                 )
 
-                # -----------------------------------------------------------
-                # Record window result
-                # -----------------------------------------------------------
                 window_result = WindowResult(
                     window_index      = window_index,
                     train_start       = train_df["datetime"].iloc[0],
@@ -457,8 +405,6 @@ def run_walk_forward(
                 wf_result.windows.append(window_result)
                 wf_result.param_stability.append(best_params)
 
-                # Stitch equity curves — normalize each window to start
-                # where the previous one ended
                 if not wf_result.oos_equity_curve:
                     wf_result.oos_equity_curve.extend(test_equity)
                 else:
@@ -473,9 +419,6 @@ def run_walk_forward(
                 window_index += 1
                 progress.advance(outer_task)
 
-        # -------------------------------------------------------------------
-        # Compute aggregate OOS metrics from stitched equity curve
-        # -------------------------------------------------------------------
         if wf_result.oos_equity_curve:
             oos_series   = pd.Series(wf_result.oos_equity_curve)
             oos_returns  = oos_series.pct_change().fillna(0)
@@ -490,18 +433,14 @@ def run_walk_forward(
             )
 
             logger.info(
-                "%s — walk-forward complete | %d windows | "
-                "OOS Sharpe: %.4f | OOS return: %.2f%%",
+                "%s — walk-forward complete | %d windows | OOS Sharpe: %.4f | OOS return: %.2f%%",
                 ticker,
                 len(wf_result.windows),
                 wf_result.oos_metrics.get("sharpe_ratio", 0.0),
                 wf_result.oos_metrics.get("total_return", 0.0) * 100,
             )
         else:
-            logger.warning(
-                "%s — walk-forward produced no valid windows",
-                ticker,
-            )
+            logger.warning("%s — walk-forward produced no valid windows", ticker)
 
         wf_result.elapsed_seconds = time.perf_counter() - start_time
         results[ticker] = wf_result

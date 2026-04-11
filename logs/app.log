@@ -11835,3 +11835,352 @@
 2026-04-11 03:15:05 | INFO     | engine.optimization                 | Optimization executor complete | elapsed: 120.96s | 506 combos/sec
 2026-04-11 03:15:06 | INFO     | engine.optimization                 | SPY — best sharpe_ratio: 0.5742 | params: {'window': np.int64(29), 'num_std': np.float64(3.1), 'lower_threshold': np.float64(0.2), 'upper_threshold': np.float64(0.95), 'long_only': np.True_}
 2026-04-11 03:15:06 | INFO     | engine.optimization                 | optimize_portfolio complete | 1 ticker(s) | elapsed: 120.96s
+2026-04-11 14:07:27 | INFO     | root                                | Logging initialized — file: logs/app.log
+2026-04-11 14:07:56 | DEBUG    | database.portfolio_store            | list_portfolios — querying DB
+2026-04-11 14:07:56 | DEBUG    | database.portfolio_store            | list_portfolios — found 1 portfolio(s)
+2026-04-11 14:07:57 | INFO     | database.portfolio_store            | load_portfolio — id: 36
+2026-04-11 14:07:57 | INFO     | database.portfolio_store            | load_portfolio — success | name: test_phase_5 | tickers: ['SPY']
+2026-04-11 14:07:57 | DEBUG    | database.portfolio_store            | list_portfolios — querying DB
+2026-04-11 14:07:57 | DEBUG    | database.portfolio_store            | list_portfolios — found 1 portfolio(s)
+2026-04-11 14:08:09 | INFO     | engine.data_pipeline                | Starting data pipeline for 1 ticker(s): ['SPY']
+2026-04-11 14:08:09 | INFO     | engine.data_pipeline                | SPY — pipeline start | input rows: 2264
+2026-04-11 14:08:09 | DEBUG    | engine.data_pipeline                | SPY — cleaning complete | clean: 2264, bad: 0
+2026-04-11 14:08:09 | DEBUG    | data.validators                     | validate_data called — input shape: (2264, 6)
+2026-04-11 14:08:09 | DEBUG    | data.validators                     | validate_data — all 2264 rows passed validation
+2026-04-11 14:08:09 | DEBUG    | data.validators                     | validate_data complete — valid: 2264, invalid: 0
+2026-04-11 14:08:09 | DEBUG    | engine.data_pipeline                | SPY — validation complete | valid: 2264, invalid: 0
+2026-04-11 14:08:09 | INFO     | engine.data_pipeline                | SPY — pipeline complete | final rows: 2264
+2026-04-11 14:08:09 | INFO     | engine.data_pipeline                | Data pipeline complete for all 1 ticker(s)
+2026-04-11 14:08:09 | INFO     | engine.optimization                 | optimize_portfolio — start | tickers: ['SPY'] | metric: sharpe_ratio | batch: 5000 | chunk: 5000 | workers: auto
+2026-04-11 14:08:09 | INFO     | engine.optimization                 | SPY — strategy: mean_reversion | total: 61250 | valid: 61250 | pruned: 0
+2026-04-11 14:08:09 | INFO     | engine.optimization                 | SPY — dispatching 13 chunks | 5000 combos per chunk
+2026-04-11 14:08:24 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:08:26 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:08:27 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:08:29 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:08:30 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:08:31 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:08:32 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:08:33 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:08:33 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:08:34 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:08:40 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:08:40 | DEBUG    | engine.optimization                 | SPY — chunk complete | 1250 results
+2026-04-11 14:08:41 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:08:41 | INFO     | engine.optimization                 | SPY — optimization complete | elapsed: 32.17s | 1904 combos/sec
+2026-04-11 14:08:42 | INFO     | engine.optimization                 | SPY — best sharpe_ratio: 0.5742 | params: {'window': np.int64(29), 'num_std': np.float64(3.1), 'lower_threshold': np.float64(0.2), 'upper_threshold': np.float64(0.9), 'long_only': np.True_}
+2026-04-11 14:08:42 | INFO     | engine.optimization                 | optimize_portfolio complete | 1 ticker(s) | total elapsed: 32.64s
+2026-04-11 14:16:40 | INFO     | root                                | Logging initialized — file: logs/app.log
+2026-04-11 14:16:45 | DEBUG    | database.portfolio_store            | list_portfolios — querying DB
+2026-04-11 14:16:45 | DEBUG    | database.portfolio_store            | list_portfolios — found 1 portfolio(s)
+2026-04-11 14:16:49 | DEBUG    | database.portfolio_store            | list_portfolios — querying DB
+2026-04-11 14:16:49 | DEBUG    | database.portfolio_store            | list_portfolios — found 1 portfolio(s)
+2026-04-11 14:16:53 | INFO     | database.portfolio_store            | delete_portfolio — id: 36
+2026-04-11 14:16:53 | INFO     | database.portfolio_store            | delete_portfolio — success | id: 36
+2026-04-11 14:16:53 | DEBUG    | database.portfolio_store            | list_portfolios — querying DB
+2026-04-11 14:16:53 | DEBUG    | database.portfolio_store            | list_portfolios — found 0 portfolio(s)
+2026-04-11 14:16:55 | DEBUG    | database.portfolio_store            | list_portfolios — querying DB
+2026-04-11 14:16:55 | DEBUG    | database.portfolio_store            | list_portfolios — found 0 portfolio(s)
+2026-04-11 14:16:56 | INFO     | engine.portfolio_builder            | create_portfolio — started
+2026-04-11 14:17:23 | DEBUG    | engine.portfolio_builder            | AAPL — strategy selected: volume_spike_momentum
+2026-04-11 14:17:42 | DEBUG    | engine.portfolio_builder            | Portfolio confirmed: test_phase_6
+2026-04-11 14:17:42 | INFO     | engine.portfolio_builder            | create_portfolio — complete | name: test_phase_6 | tickers: ['AAPL'] | cash: 1000000.00
+2026-04-11 14:17:42 | INFO     | database.portfolio_store            | save_portfolio — name: test_phase_6 | tickers: ['AAPL'] | cash: 1000000.00
+2026-04-11 14:17:42 | INFO     | database.portfolio_store            | save_portfolio — success | name: test_phase_6
+2026-04-11 14:17:48 | INFO     | engine.data_pipeline                | Starting data pipeline for 1 ticker(s): ['AAPL']
+2026-04-11 14:17:48 | INFO     | engine.data_pipeline                | AAPL — pipeline start | input rows: 1257
+2026-04-11 14:17:48 | DEBUG    | engine.data_pipeline                | AAPL — cleaning complete | clean: 1257, bad: 0
+2026-04-11 14:17:48 | DEBUG    | data.validators                     | validate_data called — input shape: (1257, 6)
+2026-04-11 14:17:48 | DEBUG    | data.validators                     | validate_data — all 1257 rows passed validation
+2026-04-11 14:17:48 | DEBUG    | data.validators                     | validate_data complete — valid: 1257, invalid: 0
+2026-04-11 14:17:48 | DEBUG    | engine.data_pipeline                | AAPL — validation complete | valid: 1257, invalid: 0
+2026-04-11 14:17:48 | INFO     | engine.data_pipeline                | AAPL — pipeline complete | final rows: 1257
+2026-04-11 14:17:48 | INFO     | engine.data_pipeline                | Data pipeline complete for all 1 ticker(s)
+2026-04-11 14:17:48 | INFO     | engine.optimization                 | optimize_portfolio — start | tickers: ['AAPL'] | metric: sharpe_ratio | batch: 5000 | chunk: 5000 | workers: auto
+2026-04-11 14:17:48 | INFO     | engine.optimization                 | AAPL — strategy: volume_spike_momentum | total: 1550 | valid: 1550 | pruned: 0
+2026-04-11 14:17:48 | INFO     | engine.optimization                 | AAPL — dispatching 1 chunks | 5000 combos per chunk
+2026-04-11 14:17:50 | DEBUG    | engine.optimization                 | AAPL — chunk complete | 1550 results
+2026-04-11 14:17:50 | INFO     | engine.optimization                 | AAPL — optimization complete | elapsed: 1.51s | 1028 combos/sec
+2026-04-11 14:17:50 | INFO     | engine.optimization                 | AAPL — best sharpe_ratio: 0.7047 | params: {'volume_window': np.int64(5), 'spike_threshold': np.float64(1.9)}
+2026-04-11 14:17:50 | INFO     | engine.optimization                 | optimize_portfolio complete | 1 ticker(s) | total elapsed: 1.52s
+2026-04-11 14:19:39 | INFO     | engine.portfolio_builder            | create_portfolio — started
+2026-04-11 14:20:03 | DEBUG    | engine.portfolio_builder            | MSFT — strategy selected: moving_average_cross
+2026-04-11 14:20:26 | DEBUG    | engine.portfolio_builder            | Portfolio confirmed: test_50k
+2026-04-11 14:20:26 | INFO     | engine.portfolio_builder            | create_portfolio — complete | name: test_50k | tickers: ['MSFT'] | cash: 1000000.00
+2026-04-11 14:20:26 | INFO     | database.portfolio_store            | save_portfolio — name: test_50k | tickers: ['MSFT'] | cash: 1000000.00
+2026-04-11 14:20:26 | INFO     | database.portfolio_store            | save_portfolio — success | name: test_50k
+2026-04-11 14:20:35 | DEBUG    | database.portfolio_store            | list_portfolios — querying DB
+2026-04-11 14:20:35 | DEBUG    | database.portfolio_store            | list_portfolios — found 2 portfolio(s)
+2026-04-11 14:20:37 | INFO     | database.portfolio_store            | load_portfolio — id: 38
+2026-04-11 14:20:37 | INFO     | database.portfolio_store            | load_portfolio — success | name: test_50k | tickers: ['MSFT']
+2026-04-11 14:20:37 | DEBUG    | database.portfolio_store            | list_portfolios — querying DB
+2026-04-11 14:20:37 | DEBUG    | database.portfolio_store            | list_portfolios — found 2 portfolio(s)
+2026-04-11 14:20:43 | INFO     | database.portfolio_store            | delete_portfolio — id: 37
+2026-04-11 14:20:43 | INFO     | database.portfolio_store            | delete_portfolio — success | id: 37
+2026-04-11 14:20:43 | DEBUG    | database.portfolio_store            | list_portfolios — querying DB
+2026-04-11 14:20:43 | DEBUG    | database.portfolio_store            | list_portfolios — found 1 portfolio(s)
+2026-04-11 14:20:51 | INFO     | engine.data_pipeline                | Starting data pipeline for 1 ticker(s): ['MSFT']
+2026-04-11 14:20:51 | INFO     | engine.data_pipeline                | MSFT — pipeline start | input rows: 1257
+2026-04-11 14:20:51 | DEBUG    | engine.data_pipeline                | MSFT — cleaning complete | clean: 1257, bad: 0
+2026-04-11 14:20:51 | DEBUG    | data.validators                     | validate_data called — input shape: (1257, 6)
+2026-04-11 14:20:51 | DEBUG    | data.validators                     | validate_data — all 1257 rows passed validation
+2026-04-11 14:20:51 | DEBUG    | data.validators                     | validate_data complete — valid: 1257, invalid: 0
+2026-04-11 14:20:51 | DEBUG    | engine.data_pipeline                | MSFT — validation complete | valid: 1257, invalid: 0
+2026-04-11 14:20:51 | INFO     | engine.data_pipeline                | MSFT — pipeline complete | final rows: 1257
+2026-04-11 14:20:51 | INFO     | engine.data_pipeline                | Data pipeline complete for all 1 ticker(s)
+2026-04-11 14:20:51 | INFO     | engine.optimization                 | optimize_portfolio — start | tickers: ['MSFT'] | metric: sharpe_ratio | batch: 5000 | chunk: 5000 | workers: auto
+2026-04-11 14:20:51 | INFO     | engine.optimization                 | MSFT — strategy: moving_average_cross | total: 30000 | valid: 30000 | pruned: 0
+2026-04-11 14:20:51 | INFO     | engine.optimization                 | MSFT — dispatching 6 chunks | 5000 combos per chunk
+2026-04-11 14:20:56 | DEBUG    | engine.optimization                 | MSFT — chunk complete | 5000 results
+2026-04-11 14:20:56 | DEBUG    | engine.optimization                 | MSFT — chunk complete | 5000 results
+2026-04-11 14:20:57 | DEBUG    | engine.optimization                 | MSFT — chunk complete | 5000 results
+2026-04-11 14:20:57 | DEBUG    | engine.optimization                 | MSFT — chunk complete | 5000 results
+2026-04-11 14:20:57 | DEBUG    | engine.optimization                 | MSFT — chunk complete | 5000 results
+2026-04-11 14:20:58 | DEBUG    | engine.optimization                 | MSFT — chunk complete | 5000 results
+2026-04-11 14:20:58 | INFO     | engine.optimization                 | MSFT — optimization complete | elapsed: 7.41s | 4048 combos/sec
+2026-04-11 14:20:58 | INFO     | engine.optimization                 | MSFT — best sharpe_ratio: 0.9354 | params: {'short_window': np.int64(33), 'long_window': np.int64(227)}
+2026-04-11 14:20:58 | INFO     | engine.optimization                 | optimize_portfolio complete | 1 ticker(s) | total elapsed: 7.53s
+2026-04-11 14:22:16 | INFO     | engine.portfolio_builder            | create_portfolio — started
+2026-04-11 14:22:37 | DEBUG    | engine.portfolio_builder            | SPY — strategy selected: mean_reversion
+2026-04-11 14:22:58 | DEBUG    | engine.portfolio_builder            | Portfolio confirmed: SPY_optimization
+2026-04-11 14:22:58 | INFO     | engine.portfolio_builder            | create_portfolio — complete | name: SPY_optimization | tickers: ['SPY'] | cash: 1000000.00
+2026-04-11 14:22:58 | INFO     | database.portfolio_store            | save_portfolio — name: SPY_optimization | tickers: ['SPY'] | cash: 1000000.00
+2026-04-11 14:22:58 | INFO     | database.portfolio_store            | save_portfolio — success | name: SPY_optimization
+2026-04-11 14:23:02 | INFO     | engine.data_pipeline                | Starting data pipeline for 1 ticker(s): ['SPY']
+2026-04-11 14:23:02 | INFO     | engine.data_pipeline                | SPY — pipeline start | input rows: 1258
+2026-04-11 14:23:02 | DEBUG    | engine.data_pipeline                | SPY — cleaning complete | clean: 1258, bad: 0
+2026-04-11 14:23:02 | DEBUG    | data.validators                     | validate_data called — input shape: (1258, 6)
+2026-04-11 14:23:02 | DEBUG    | data.validators                     | validate_data — all 1258 rows passed validation
+2026-04-11 14:23:02 | DEBUG    | data.validators                     | validate_data complete — valid: 1258, invalid: 0
+2026-04-11 14:23:02 | DEBUG    | engine.data_pipeline                | SPY — validation complete | valid: 1258, invalid: 0
+2026-04-11 14:23:02 | INFO     | engine.data_pipeline                | SPY — pipeline complete | final rows: 1258
+2026-04-11 14:23:02 | INFO     | engine.data_pipeline                | Data pipeline complete for all 1 ticker(s)
+2026-04-11 14:23:02 | INFO     | engine.optimization                 | optimize_portfolio — start | tickers: ['SPY'] | metric: sharpe_ratio | batch: 5000 | chunk: 5000 | workers: auto
+2026-04-11 14:23:02 | INFO     | engine.optimization                 | SPY — strategy: mean_reversion | total: 61250 | valid: 61250 | pruned: 0
+2026-04-11 14:23:02 | INFO     | engine.optimization                 | SPY — dispatching 13 chunks | 5000 combos per chunk
+2026-04-11 14:23:09 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:23:10 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:23:11 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:23:12 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:23:13 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:23:13 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:23:14 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:23:14 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:23:14 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:23:15 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:23:18 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:23:21 | DEBUG    | engine.optimization                 | SPY — chunk complete | 1250 results
+2026-04-11 14:23:21 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:23:21 | INFO     | engine.optimization                 | SPY — optimization complete | elapsed: 19.32s | 3171 combos/sec
+2026-04-11 14:23:21 | INFO     | engine.optimization                 | SPY — best sharpe_ratio: 0.8614 | params: {'window': np.int64(55), 'num_std': np.float64(1.9), 'lower_threshold': np.float64(0.15), 'upper_threshold': np.float64(0.65), 'long_only': np.True_}
+2026-04-11 14:23:21 | INFO     | engine.optimization                 | optimize_portfolio complete | 1 ticker(s) | total elapsed: 19.65s
+2026-04-11 14:34:31 | INFO     | root                                | Logging initialized — file: logs/app.log
+2026-04-11 14:34:34 | DEBUG    | database.portfolio_store            | list_portfolios — querying DB
+2026-04-11 14:34:34 | DEBUG    | database.portfolio_store            | list_portfolios — found 2 portfolio(s)
+2026-04-11 14:34:40 | INFO     | database.portfolio_store            | load_portfolio — id: 39
+2026-04-11 14:34:40 | INFO     | database.portfolio_store            | load_portfolio — success | name: SPY_optimization | tickers: ['SPY']
+2026-04-11 14:34:40 | DEBUG    | database.portfolio_store            | list_portfolios — querying DB
+2026-04-11 14:34:40 | DEBUG    | database.portfolio_store            | list_portfolios — found 2 portfolio(s)
+2026-04-11 14:34:45 | INFO     | engine.data_pipeline                | Starting data pipeline for 1 ticker(s): ['SPY']
+2026-04-11 14:34:45 | INFO     | engine.data_pipeline                | SPY — pipeline start | input rows: 1258
+2026-04-11 14:34:45 | DEBUG    | engine.data_pipeline                | SPY — cleaning complete | clean: 1258, bad: 0
+2026-04-11 14:34:45 | DEBUG    | data.validators                     | validate_data called — input shape: (1258, 6)
+2026-04-11 14:34:45 | DEBUG    | data.validators                     | validate_data — all 1258 rows passed validation
+2026-04-11 14:34:45 | DEBUG    | data.validators                     | validate_data complete — valid: 1258, invalid: 0
+2026-04-11 14:34:45 | DEBUG    | engine.data_pipeline                | SPY — validation complete | valid: 1258, invalid: 0
+2026-04-11 14:34:45 | INFO     | engine.data_pipeline                | SPY — pipeline complete | final rows: 1258
+2026-04-11 14:34:45 | INFO     | engine.data_pipeline                | Data pipeline complete for all 1 ticker(s)
+2026-04-11 14:34:45 | INFO     | engine.optimization                 | optimize_portfolio — start | tickers: ['SPY'] | metric: sharpe_ratio | batch: 5000 | chunk: 5000 | workers: auto
+2026-04-11 14:34:46 | INFO     | engine.optimization                 | SPY — strategy: mean_reversion | total: 61250 | valid: 61250 | pruned: 0
+2026-04-11 14:34:46 | INFO     | engine.optimization                 | SPY — dispatching 13 chunks | 5000 combos per chunk
+2026-04-11 14:35:03 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:35:04 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:35:04 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:35:05 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:35:06 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:35:06 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:35:06 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:35:07 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:35:07 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:35:07 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:35:08 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:35:11 | DEBUG    | engine.optimization                 | SPY — chunk complete | 1250 results
+2026-04-11 14:35:11 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:35:12 | INFO     | engine.optimization                 | SPY — optimization complete | elapsed: 26.37s | 2323 combos/sec
+2026-04-11 14:35:12 | INFO     | engine.optimization                 | SPY — best sharpe_ratio: 0.8614 | params: {'window': np.int64(55), 'num_std': np.float64(1.9), 'lower_threshold': np.float64(0.15), 'upper_threshold': np.float64(0.9), 'long_only': np.True_}
+2026-04-11 14:35:12 | INFO     | engine.optimization                 | optimize_portfolio complete | 1 ticker(s) | total elapsed: 26.79s
+2026-04-11 14:35:37 | INFO     | engine.data_pipeline                | Starting data pipeline for 1 ticker(s): ['SPY']
+2026-04-11 14:35:37 | INFO     | engine.data_pipeline                | SPY — pipeline start | input rows: 1258
+2026-04-11 14:35:37 | DEBUG    | engine.data_pipeline                | SPY — cleaning complete | clean: 1258, bad: 0
+2026-04-11 14:35:37 | DEBUG    | data.validators                     | validate_data called — input shape: (1258, 6)
+2026-04-11 14:35:37 | DEBUG    | data.validators                     | validate_data — all 1258 rows passed validation
+2026-04-11 14:35:37 | DEBUG    | data.validators                     | validate_data complete — valid: 1258, invalid: 0
+2026-04-11 14:35:37 | DEBUG    | engine.data_pipeline                | SPY — validation complete | valid: 1258, invalid: 0
+2026-04-11 14:35:37 | INFO     | engine.data_pipeline                | SPY — pipeline complete | final rows: 1258
+2026-04-11 14:35:37 | INFO     | engine.data_pipeline                | Data pipeline complete for all 1 ticker(s)
+2026-04-11 14:35:37 | INFO     | engine.optimization                 | optimize_portfolio — start | tickers: ['SPY'] | metric: sharpe_ratio | batch: 5000 | chunk: 5000 | workers: auto
+2026-04-11 14:35:37 | INFO     | engine.optimization                 | SPY — strategy: mean_reversion | total: 61250 | valid: 61250 | pruned: 0
+2026-04-11 14:35:37 | INFO     | engine.optimization                 | SPY — dispatching 13 chunks | 5000 combos per chunk
+2026-04-11 14:35:45 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:35:46 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:35:47 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:35:47 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:35:48 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:35:48 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:35:50 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:35:51 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:35:52 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:35:52 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:35:52 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:35:52 | DEBUG    | engine.optimization                 | SPY — chunk complete | 1250 results
+2026-04-11 14:35:53 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:35:53 | INFO     | engine.optimization                 | SPY — optimization complete | elapsed: 16.15s | 3791 combos/sec
+2026-04-11 14:35:54 | INFO     | engine.optimization                 | SPY — best sharpe_ratio: 0.8614 | params: {'window': np.int64(55), 'num_std': np.float64(1.9), 'lower_threshold': np.float64(0.15), 'upper_threshold': np.float64(0.95), 'long_only': np.True_}
+2026-04-11 14:35:54 | INFO     | engine.optimization                 | optimize_portfolio complete | 1 ticker(s) | total elapsed: 16.56s
+2026-04-11 14:36:15 | INFO     | engine.data_pipeline                | Starting data pipeline for 1 ticker(s): ['SPY']
+2026-04-11 14:36:15 | INFO     | engine.data_pipeline                | SPY — pipeline start | input rows: 1258
+2026-04-11 14:36:15 | DEBUG    | engine.data_pipeline                | SPY — cleaning complete | clean: 1258, bad: 0
+2026-04-11 14:36:15 | DEBUG    | data.validators                     | validate_data called — input shape: (1258, 6)
+2026-04-11 14:36:15 | DEBUG    | data.validators                     | validate_data — all 1258 rows passed validation
+2026-04-11 14:36:15 | DEBUG    | data.validators                     | validate_data complete — valid: 1258, invalid: 0
+2026-04-11 14:36:15 | DEBUG    | engine.data_pipeline                | SPY — validation complete | valid: 1258, invalid: 0
+2026-04-11 14:36:15 | INFO     | engine.data_pipeline                | SPY — pipeline complete | final rows: 1258
+2026-04-11 14:36:15 | INFO     | engine.data_pipeline                | Data pipeline complete for all 1 ticker(s)
+2026-04-11 14:36:15 | INFO     | engine.optimization                 | optimize_portfolio — start | tickers: ['SPY'] | metric: sharpe_ratio | batch: 5000 | chunk: 5000 | workers: auto
+2026-04-11 14:36:16 | INFO     | engine.optimization                 | SPY — strategy: mean_reversion | total: 61250 | valid: 61250 | pruned: 0
+2026-04-11 14:36:16 | INFO     | engine.optimization                 | SPY — dispatching 13 chunks | 5000 combos per chunk
+2026-04-11 14:36:23 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:36:24 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:36:25 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:36:26 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:36:27 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:36:28 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:36:28 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:36:28 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:36:29 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:36:29 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:36:29 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:36:30 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:36:30 | DEBUG    | engine.optimization                 | SPY — chunk complete | 1250 results
+2026-04-11 14:36:30 | INFO     | engine.optimization                 | SPY — optimization complete | elapsed: 14.78s | 4145 combos/sec
+2026-04-11 14:36:31 | INFO     | engine.optimization                 | SPY — best sharpe_ratio: 0.8614 | params: {'window': np.int64(55), 'num_std': np.float64(1.9), 'lower_threshold': np.float64(0.15), 'upper_threshold': np.float64(0.65), 'long_only': np.True_}
+2026-04-11 14:36:31 | INFO     | engine.optimization                 | optimize_portfolio complete | 1 ticker(s) | total elapsed: 15.19s
+2026-04-11 14:43:20 | INFO     | root                                | Logging initialized — file: logs/app.log
+2026-04-11 14:43:26 | DEBUG    | database.portfolio_store            | list_portfolios — querying DB
+2026-04-11 14:43:26 | DEBUG    | database.portfolio_store            | list_portfolios — found 2 portfolio(s)
+2026-04-11 14:43:27 | INFO     | database.portfolio_store            | load_portfolio — id: 39
+2026-04-11 14:43:27 | INFO     | database.portfolio_store            | load_portfolio — success | name: SPY_optimization | tickers: ['SPY']
+2026-04-11 14:43:27 | DEBUG    | database.portfolio_store            | list_portfolios — querying DB
+2026-04-11 14:43:27 | DEBUG    | database.portfolio_store            | list_portfolios — found 2 portfolio(s)
+2026-04-11 14:43:31 | INFO     | engine.data_pipeline                | Starting data pipeline for 1 ticker(s): ['SPY']
+2026-04-11 14:43:31 | INFO     | engine.data_pipeline                | SPY — pipeline start | input rows: 1258
+2026-04-11 14:43:31 | DEBUG    | engine.data_pipeline                | SPY — cleaning complete | clean: 1258, bad: 0
+2026-04-11 14:43:31 | DEBUG    | data.validators                     | validate_data called — input shape: (1258, 6)
+2026-04-11 14:43:31 | DEBUG    | data.validators                     | validate_data — all 1258 rows passed validation
+2026-04-11 14:43:31 | DEBUG    | data.validators                     | validate_data complete — valid: 1258, invalid: 0
+2026-04-11 14:43:31 | DEBUG    | engine.data_pipeline                | SPY — validation complete | valid: 1258, invalid: 0
+2026-04-11 14:43:31 | INFO     | engine.data_pipeline                | SPY — pipeline complete | final rows: 1258
+2026-04-11 14:43:31 | INFO     | engine.data_pipeline                | Data pipeline complete for all 1 ticker(s)
+2026-04-11 14:43:31 | INFO     | engine.optimization                 | optimize_portfolio — start | tickers: ['SPY'] | metric: sharpe_ratio | batch: 5000 | chunk: 5000 | workers: auto
+2026-04-11 14:43:31 | INFO     | engine.optimization                 | SPY — strategy: mean_reversion | total: 61250 | valid: 61250 | pruned: 0
+2026-04-11 14:43:31 | INFO     | engine.optimization                 | SPY — dispatching 13 chunks | 5000 combos per chunk
+2026-04-11 14:43:39 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:43:40 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:43:41 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:43:42 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:43:42 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:43:43 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:43:43 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:43:44 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:43:44 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:43:44 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:43:45 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:43:45 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:43:48 | DEBUG    | engine.optimization                 | SPY — chunk complete | 1250 results
+2026-04-11 14:43:49 | INFO     | engine.optimization                 | SPY — optimization complete | elapsed: 17.66s | 3467 combos/sec
+2026-04-11 14:43:49 | INFO     | engine.optimization                 | SPY — best sharpe_ratio: 0.8614 | params: {'window': np.int64(55), 'num_std': np.float64(1.9), 'lower_threshold': np.float64(0.15), 'upper_threshold': np.float64(0.85), 'long_only': np.True_}
+2026-04-11 14:43:49 | INFO     | engine.optimization                 | optimize_portfolio complete | 1 ticker(s) | total elapsed: 18.08s
+2026-04-11 14:44:00 | INFO     | engine.data_pipeline                | Starting data pipeline for 1 ticker(s): ['SPY']
+2026-04-11 14:44:00 | INFO     | engine.data_pipeline                | SPY — pipeline start | input rows: 1258
+2026-04-11 14:44:00 | DEBUG    | engine.data_pipeline                | SPY — cleaning complete | clean: 1258, bad: 0
+2026-04-11 14:44:00 | DEBUG    | data.validators                     | validate_data called — input shape: (1258, 6)
+2026-04-11 14:44:00 | DEBUG    | data.validators                     | validate_data — all 1258 rows passed validation
+2026-04-11 14:44:00 | DEBUG    | data.validators                     | validate_data complete — valid: 1258, invalid: 0
+2026-04-11 14:44:00 | DEBUG    | engine.data_pipeline                | SPY — validation complete | valid: 1258, invalid: 0
+2026-04-11 14:44:00 | INFO     | engine.data_pipeline                | SPY — pipeline complete | final rows: 1258
+2026-04-11 14:44:00 | INFO     | engine.data_pipeline                | Data pipeline complete for all 1 ticker(s)
+2026-04-11 14:44:00 | INFO     | engine.optimization                 | optimize_portfolio — start | tickers: ['SPY'] | metric: sharpe_ratio | batch: 5000 | chunk: 5000 | workers: auto
+2026-04-11 14:44:00 | INFO     | engine.optimization                 | SPY — strategy: mean_reversion | total: 61250 | valid: 61250 | pruned: 0
+2026-04-11 14:44:00 | INFO     | engine.optimization                 | SPY — dispatching 13 chunks | 5000 combos per chunk
+2026-04-11 14:44:08 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:08 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:09 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:10 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:10 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:11 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:13 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:13 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:13 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:14 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:14 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:14 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:14 | DEBUG    | engine.optimization                 | SPY — chunk complete | 1250 results
+2026-04-11 14:44:15 | INFO     | engine.optimization                 | SPY — optimization complete | elapsed: 14.80s | 4138 combos/sec
+2026-04-11 14:44:15 | INFO     | engine.optimization                 | SPY — best sharpe_ratio: 0.8614 | params: {'window': np.int64(55), 'num_std': np.float64(1.9), 'lower_threshold': np.float64(0.15), 'upper_threshold': np.float64(0.65), 'long_only': np.True_}
+2026-04-11 14:44:15 | INFO     | engine.optimization                 | optimize_portfolio complete | 1 ticker(s) | total elapsed: 15.25s
+2026-04-11 14:44:24 | INFO     | engine.data_pipeline                | Starting data pipeline for 1 ticker(s): ['SPY']
+2026-04-11 14:44:24 | INFO     | engine.data_pipeline                | SPY — pipeline start | input rows: 1258
+2026-04-11 14:44:24 | DEBUG    | engine.data_pipeline                | SPY — cleaning complete | clean: 1258, bad: 0
+2026-04-11 14:44:24 | DEBUG    | data.validators                     | validate_data called — input shape: (1258, 6)
+2026-04-11 14:44:24 | DEBUG    | data.validators                     | validate_data — all 1258 rows passed validation
+2026-04-11 14:44:24 | DEBUG    | data.validators                     | validate_data complete — valid: 1258, invalid: 0
+2026-04-11 14:44:24 | DEBUG    | engine.data_pipeline                | SPY — validation complete | valid: 1258, invalid: 0
+2026-04-11 14:44:24 | INFO     | engine.data_pipeline                | SPY — pipeline complete | final rows: 1258
+2026-04-11 14:44:24 | INFO     | engine.data_pipeline                | Data pipeline complete for all 1 ticker(s)
+2026-04-11 14:44:24 | INFO     | engine.optimization                 | optimize_portfolio — start | tickers: ['SPY'] | metric: sharpe_ratio | batch: 5000 | chunk: 5000 | workers: auto
+2026-04-11 14:44:24 | INFO     | engine.optimization                 | SPY — strategy: mean_reversion | total: 61250 | valid: 61250 | pruned: 0
+2026-04-11 14:44:24 | INFO     | engine.optimization                 | SPY — dispatching 13 chunks | 5000 combos per chunk
+2026-04-11 14:44:30 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:30 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:31 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:32 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:33 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:33 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:33 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:34 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:34 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:35 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:35 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:35 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:35 | DEBUG    | engine.optimization                 | SPY — chunk complete | 1250 results
+2026-04-11 14:44:36 | INFO     | engine.optimization                 | SPY — optimization complete | elapsed: 11.53s | 5314 combos/sec
+2026-04-11 14:44:36 | INFO     | engine.optimization                 | SPY — best sharpe_ratio: 0.8614 | params: {'window': np.int64(55), 'num_std': np.float64(1.9), 'lower_threshold': np.float64(0.15), 'upper_threshold': np.float64(0.75), 'long_only': np.True_}
+2026-04-11 14:44:36 | INFO     | engine.optimization                 | optimize_portfolio complete | 1 ticker(s) | total elapsed: 11.98s
+2026-04-11 14:44:43 | INFO     | engine.data_pipeline                | Starting data pipeline for 1 ticker(s): ['SPY']
+2026-04-11 14:44:43 | INFO     | engine.data_pipeline                | SPY — pipeline start | input rows: 1258
+2026-04-11 14:44:43 | DEBUG    | engine.data_pipeline                | SPY — cleaning complete | clean: 1258, bad: 0
+2026-04-11 14:44:43 | DEBUG    | data.validators                     | validate_data called — input shape: (1258, 6)
+2026-04-11 14:44:43 | DEBUG    | data.validators                     | validate_data — all 1258 rows passed validation
+2026-04-11 14:44:43 | DEBUG    | data.validators                     | validate_data complete — valid: 1258, invalid: 0
+2026-04-11 14:44:43 | DEBUG    | engine.data_pipeline                | SPY — validation complete | valid: 1258, invalid: 0
+2026-04-11 14:44:43 | INFO     | engine.data_pipeline                | SPY — pipeline complete | final rows: 1258
+2026-04-11 14:44:43 | INFO     | engine.data_pipeline                | Data pipeline complete for all 1 ticker(s)
+2026-04-11 14:44:43 | INFO     | engine.optimization                 | optimize_portfolio — start | tickers: ['SPY'] | metric: sharpe_ratio | batch: 5000 | chunk: 5000 | workers: auto
+2026-04-11 14:44:43 | INFO     | engine.optimization                 | SPY — strategy: mean_reversion | total: 61250 | valid: 61250 | pruned: 0
+2026-04-11 14:44:43 | INFO     | engine.optimization                 | SPY — dispatching 13 chunks | 5000 combos per chunk
+2026-04-11 14:44:48 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:49 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:50 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:50 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:51 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:51 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:52 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:52 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:52 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:53 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:53 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:53 | DEBUG    | engine.optimization                 | SPY — chunk complete | 5000 results
+2026-04-11 14:44:53 | DEBUG    | engine.optimization                 | SPY — chunk complete | 1250 results
+2026-04-11 14:44:54 | INFO     | engine.optimization                 | SPY — optimization complete | elapsed: 11.24s | 5451 combos/sec
+2026-04-11 14:44:55 | INFO     | engine.optimization                 | SPY — best sharpe_ratio: 0.8614 | params: {'window': np.int64(55), 'num_std': np.float64(1.9), 'lower_threshold': np.float64(0.15), 'upper_threshold': np.float64(0.75), 'long_only': np.True_}
+2026-04-11 14:44:55 | INFO     | engine.optimization                 | optimize_portfolio complete | 1 ticker(s) | total elapsed: 11.74s
